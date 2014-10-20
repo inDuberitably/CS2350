@@ -1,0 +1,519 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Awarding the self in  Wikipedia : Identity work and the disclosure of knowledge | Ashton | First Monday</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="description" content="Awarding the self in  Wikipedia : Identity work and the disclosure of knowledge">
+			<meta name="keywords" content="Wikipedia; identity; online profile; knowledge">
+	
+	
+	<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+
+	<meta name="DC.Coverage.spatial" xml:lang="en" content="UK; USA">
+	<meta name="DC.Creator.PersonalName" content="Daniel Ashton">
+	<meta name="DC.Date.available" scheme="ISO8601" content="2010-12-17">
+	<meta name="DC.Date.created" scheme="ISO8601" content="2010-12-18">
+	<meta name="DC.Date.dateSubmitted" scheme="ISO8601" content="2010-09-12">
+	<meta name="DC.Date.issued" scheme="ISO8601" content="2011-01-03">
+	<meta name="DC.Date.modified" scheme="ISO8601" content="2010-12-29">
+	<meta name="DC.Description" xml:lang="en" content="The ‘behind-the-scenes’ discussion and edit pages of  Wikipedia  reveal a complex layering of debates and discussion between editors. Focusing on how  Wikipedia  ‘service awards’ can identify and distinguish editors, this paper explores the disclosure of knowledge as it is intimately bound up with identity work. Examining contributions/edits to  Wikipedia  as disclosures highlights processes of identity management and work.">
+	<meta name="DC.Format" scheme="IMT" content="text/html">
+	<meta name="DC.Identifier" content="3156">
+						<meta name="DC.Identifier.URI" content="http://journals.uic.edu/ojs/index.php/fm/article/view/3156">
+	<meta name="DC.Language" scheme="ISO639-1" content="en">
+	<meta name="DC.Rights" content="Authors submitting a paper to First Monday automatically agree to confer a limited license to First Monday if and when the manuscript is accepted for publication. This license allows First Monday to publish a manuscript in a given issue. Authors have a choice of: 1. Dedicating the article to the public domain. This allows anyone to make any use of the article at any time, including commercial use. A good way to do this is to use the Creative Commons Public Domain Dedication Web form; see  http://creativecommons.org/license/publicdomain-2?lang=en . 2. Retaining some rights while allowing some use. For example, authors may decide to disallow commercial use without permission. Authors may also decide whether to allow users to make modifications (e.g. translations, adaptations) without permission. A good way to make these choices is to use a Creative Commons license. * Go to  http://creativecommons.org/license/ . * Choose and select a license. * What to do next — you can then e–mail the license html code to yourself. Do this, and then forward that e–mail to First Monday’s editors. Put your name in the subject line of the e–mail with your name and article title in the e–mail. Background information about Creative Commons licenses can be found at  http://creativecommons.org/about/licenses/ . 3. Retaining full rights, including translation and reproduction rights. Authors may use the statement: © Author 2014 All Rights Reserved. Authors may choose to use their own wording to reserve copyright. If you choose to retain full copyright, please add your copyright statement to the end of the article. Authors submitting a paper to First Monday do so in the understanding that Internet publishing is both an opportunity and challenge. In this environment, authors and publishers do not always have the means to protect against unauthorized copying or editing of copyright–protected works.">
+	<meta name="DC.Source" content="First Monday">
+	<meta name="DC.Source.ISSN" content="13960466">
+	<meta name="DC.Source.Issue" content="1">	<meta name="DC.Source.URI" content="http://journals.uic.edu/ojs/index.php/fm">
+	<meta name="DC.Source.Volume" content="16">						<meta name="DC.Subject" xml:lang="en" content="Wikipedia">
+								<meta name="DC.Subject" xml:lang="en" content="identity">
+								<meta name="DC.Subject" xml:lang="en" content="online profile">
+								<meta name="DC.Subject" xml:lang="en" content="knowledge">
+				<meta name="DC.Title" content="Awarding the self in  Wikipedia : Identity work and the disclosure of knowledge">
+		<meta name="DC.Type" content="Text.Serial.Journal">
+	<meta name="DC.Type.articleType" content="Articles">
+		<meta name="gs_meta_revision" content="1.1">
+	<meta name="citation_journal_title" content="First Monday">
+	<meta name="citation_issn" content="13960466">
+        <meta name="citation_author" content="Daniel Ashton">
+        <meta name="citation_author_institution" content="Bath Spa University">
+<meta name="citation_title" content="Awarding the self in  Wikipedia : Identity work and the disclosure of knowledge">
+
+	<meta name="citation_date" content="2010/12/18">
+
+	<meta name="citation_volume" content="16">
+	<meta name="citation_issue" content="1">
+
+						<meta name="citation_abstract_html_url" content="http://journals.uic.edu/ojs/index.php/fm/article/view/3156">
+	<meta name="citation_language" content="en">
+						<meta name="citation_keywords" xml:lang="en" content="Wikipedia">
+								<meta name="citation_keywords" xml:lang="en" content="identity">
+								<meta name="citation_keywords" xml:lang="en" content="online profile">
+								<meta name="citation_keywords" xml:lang="en" content="knowledge">
+									<meta name="citation_fulltext_html_url" content="http://journals.uic.edu/ojs/index.php/fm/article/view/3156/2747">
+				
+
+	<link rel="stylesheet" href="http://journals.uic.edu/ojs/lib/pkp/styles/pkp.css" type="text/css">
+	<link rel="stylesheet" href="http://journals.uic.edu/ojs/lib/pkp/styles/common.css" type="text/css">
+	<link rel="stylesheet" href="http://journals.uic.edu/ojs/styles/common.css" type="text/css">
+	<link rel="stylesheet" href="http://journals.uic.edu/ojs/styles/compiled.css" type="text/css">
+	<link rel="stylesheet" href="http://journals.uic.edu/ojs/styles/articleView.css" type="text/css">
+			<link rel="stylesheet" href="http://journals.uic.edu/ojs/lib/pkp/styles/rtEmbedded.css" type="text/css">
+	
+	
+	
+	<link rel="stylesheet" href="http://journals.uic.edu/ojs/styles/sidebar.css" type="text/css">		<link rel="stylesheet" href="http://journals.uic.edu/ojs/styles/rightSidebar.css" type="text/css">	
+			<link rel="stylesheet" href="http://journals.uic.edu/ojs/public/journals/3/journalStyleSheet.css" type="text/css">
+	
+	<!-- Base Jquery -->
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		// Provide a local fallback if the CDN cannot be reached
+		if (typeof google == 'undefined') {
+			document.write(unescape("%3Cscript src='http://journals.uic.edu/ojs/lib/pkp/js/lib/jquery/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+			document.write(unescape("%3Cscript src='http://journals.uic.edu/ojs/lib/pkp/js/lib/jquery/plugins/jqueryUi.min.js' type='text/javascript'%3E%3C/script%3E"));
+		} else {
+			google.load("jquery", "1.4.4");
+			google.load("jqueryui", "1.8.6");
+		}
+	</script>
+	
+	<script type="text/javascript">
+		$(function(){
+			fontSize("#sizer", "body", 9, 16, 32, "/ojs"); // Initialize the font sizer
+		});
+	</script>
+
+	<!-- Compiled scripts -->
+			
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/lib/jquery/plugins/jquery.tag-it.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/lib/jquery/plugins/jquery.cookie.js"></script>
+
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/functions/fontController.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/functions/general.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/functions/jqueryValidatorI18n.js"></script>
+
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/classes/Helper.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/classes/ObjectProxy.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/classes/Handler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/classes/linkAction/LinkActionRequest.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/classes/features/Feature.js"></script>
+
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/SiteHandler.js"></script><!-- Included only for namespace definition -->
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/UrlInDivHandler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/AutocompleteHandler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/ExtrasOnDemandHandler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/form/FormHandler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/form/ClientFormHandler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/grid/GridHandler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/controllers/linkAction/LinkActionHandler.js"></script>
+
+<script type="text/javascript" src="http://journals.uic.edu/ojs/js/pages/search/SearchFormHandler.js"></script>
+<script type="text/javascript" src="http://journals.uic.edu/ojs/plugins/generic/lucene/js/LuceneAutocompleteHandler.js"></script>
+
+<script type="text/javascript" src="http://journals.uic.edu/ojs/lib/pkp/js/lib/jquery/plugins/jquery.pkp.js"></script>	
+	
+	<link rel="alternate" type="application/atom+xml" title="First Monday (atom+xml)" href="http://journals.uic.edu/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/atom">
+	<link rel="alternate" type="application/rdf+xml" title="First Monday (rdf+xml)" href="http://journals.uic.edu/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss">
+	<link rel="alternate" type="application/rss+xml" title="First Monday (rss+xml)" href="http://journals.uic.edu/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss2">
+	<script type="text/javascript" src="http://journals.uic.edu/ojs/js/relatedItems.js"></script>
+	<script type="text/javascript" src="http://journals.uic.edu/ojs/js/inlinePdf.js"></script>
+	<script type="text/javascript" src="http://journals.uic.edu/ojs/js/pdfobject.js"></script>
+
+</head>
+<body>
+
+<div id="container">
+
+<div id="header">
+<div id="headerTitle">
+<h1>
+	<img src="http://journals.uic.edu/ojs/public/journals/3/pageHeaderTitleImage_en_US.gif" width="252" height="102" alt="Page Header">
+</h1>
+</div>
+</div>
+
+<div id="body">
+
+	<div id="sidebar">
+							<div id="rightSidebar">
+				<div class="block" id="sidebarDevelopedBy">
+	<a class="blockTitle" href="http://pkp.sfu.ca/ojs/" id="developedBy">Open Journal Systems</a>
+</div>
+<div class="block" id="sidebarHelp">
+	<a class="blockTitle" href="javascript:openHelp('http://journals.uic.edu/ojs/index.php/fm/help')">Journal Help</a>
+</div>
+<div class="block" id="sidebarUser">
+			<span class="blockTitle">User</span>
+	
+						<form method="post" action="http://journals.uic.edu/ojs/index.php/fm/login/signIn">
+				<table>
+					<tr>
+						<td><label for="sidebar-username">Username</label></td>
+						<td><input type="text" id="sidebar-username" name="username" value="" size="12" maxlength="32" class="textField"></td>
+					</tr>
+					<tr>
+						<td><label for="sidebar-password">Password</label></td>
+						<td><input type="password" id="sidebar-password" name="password" value="" size="12" maxlength="32" class="textField"></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+<input type="checkbox" id="remember" name="remember" value="1"> <label for="remember">Remember me</label>
+</td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="submit" value="Login" class="button"></td>
+					</tr>
+				</table>
+			</form>
+			</div>
+<div class="block" id="sidebarNavigation">
+	<span class="blockTitle">Journal Content</span>
+
+	<span class="blockSubtitle">Search</span>
+	<form id="simpleSearchForm" method="post" action="http://journals.uic.edu/ojs/index.php/fm/search/search">
+		<table id="simpleSearchInput">
+			<tr>
+				<td>
+													<input type="text" id="simpleQuery" name="simpleQuery" size="15" maxlength="255" value="" class="textField">
+								</td>
+			</tr>
+			<tr>
+				<td><select id="searchField" name="searchField" size="1" class="selectMenu">
+					<option label="All" value="query">All</option>
+<option label="Authors" value="authors">Authors</option>
+<option label="Title" value="title">Title</option>
+<option label="Abstract" value="abstract">Abstract</option>
+<option label="Index terms" value="indexTerms">Index terms</option>
+<option label="Full Text" value="galleyFullText">Full Text</option>
+
+				</select></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Search" class="button"></td>
+			</tr>
+		</table>
+	</form>
+
+	<br>
+
+		<span class="blockSubtitle">Browse</span>
+	<ul>
+		<li><a href="http://journals.uic.edu/ojs/index.php/fm/issue/archive">By Issue</a></li>
+		<li><a href="http://journals.uic.edu/ojs/index.php/fm/search/authors">By Author</a></li>
+		<li><a href="http://journals.uic.edu/ojs/index.php/fm/search/titles">By Title</a></li>
+		
+					<li><a href="http://journals.uic.edu/ojs/index.php/index">Other Journals</a></li>
+						</ul>
+	</div>
+<div class="block" id="sidebarFontSize" style="margin-bottom: 4px;">
+	<span class="blockTitle">Font Size</span>
+	<div id="sizer"></div>
+</div>
+<br><div class="block" id="sidebarWebFeed">
+	<span class="blockTitle">Current Issue</span>
+	<a href="http://journals.uic.edu/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/atom">
+	<img src="http://journals.uic.edu/ojs/plugins/generic/webFeed/templates/images/atom10_logo.gif" alt="Atom logo" border="0"></a>
+	<br>
+	<a href="http://journals.uic.edu/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss2">
+	<img src="http://journals.uic.edu/ojs/plugins/generic/webFeed/templates/images/rss20_logo.gif" alt="RSS2 logo" border="0"></a>
+	<br>
+	<a href="http://journals.uic.edu/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss">
+	<img src="http://journals.uic.edu/ojs/plugins/generic/webFeed/templates/images/rss10_logo.gif" alt="RSS1 logo" border="0"></a>
+</div>
+
+<div class="block" id="sidebarRTArticleTools">
+
+	<span class="blockTitle">Article Tools</span>
+			<div class="articleToolItem">
+			<img src="http://journals.uic.edu/ojs/plugins/blocks/readingTools/icons/abstract.png" class="articleToolIcon"> <a href="http://journals.uic.edu/ojs/index.php/fm/article/view/3156" target="_parent">Abstract</a><br>
+		</div>
+				<div class="articleToolItem">
+			<img src="http://journals.uic.edu/ojs/plugins/blocks/readingTools/icons/printArticle.png" class="articleToolIcon"> <a href="javascript:openRTWindow('http://journals.uic.edu/ojs/index.php/fm/rt/printerFriendly/3156/2747');">Print this article</a>
+		</div>
+				<div class="articleToolItem">
+			<img src="http://journals.uic.edu/ojs/plugins/blocks/readingTools/icons/metadata.png" class="articleToolIcon"> <a href="javascript:openRTWindow('http://journals.uic.edu/ojs/index.php/fm/rt/metadata/3156/2747');">Indexing metadata</a><br>
+		</div>
+				<div class="articleToolItem">
+			<img src="http://journals.uic.edu/ojs/plugins/blocks/readingTools/icons/citeArticle.png" class="articleToolIcon"> <a href="javascript:openRTWindow('http://journals.uic.edu/ojs/index.php/fm/rt/captureCite/3156/2747');">How to cite item</a><br>
+		</div>
+							<div class="articleToolItem">
+			<img src="http://journals.uic.edu/ojs/plugins/blocks/readingTools/icons/emailArticle.png" class="articleToolIcon">
+			Email this article <span style="font-size: 0.8em">(Login required)</span>		</div>
+				<div class="articleToolItem">
+			<img src="http://journals.uic.edu/ojs/plugins/blocks/readingTools/icons/emailArticle.png" class="articleToolIcon">
+			Email the author <span style="font-size: 0.8em">(Login required)</span>		</div>
+		</div>
+
+<div class="block" id="sidebarRTAuthorBios">
+	<span class="blockTitle">
+					About The Author
+			</span>
+		<div id="authorBio">
+	<p>
+		<em>Daniel Ashton</em><br>
+		<a href="http://www.bathspa.ac.uk/about/profiles/profile.asp?user=academic%5Cashd1">http://www.bathspa.ac.uk/about/profiles/profile.asp?user=academic\ashd1</a><br>				Bath Spa University		<br>United Kingdom	</p>
+
+	<p>Dr. Daniel Ashton is senior lecturer in media and cultural studies, Department of Film and Media Production, School of Humanities and Cultural Industries, Bath Spa University.</p>
+	</div>
+	
+	</div>
+			</div>
+			</div>
+
+<div id="main">
+
+<div id="navbar">
+	<ul class="menu">
+		<li id="home"><a href="http://journals.uic.edu/ojs/index.php/fm/index">Home</a></li>
+		<li id="about"><a href="http://journals.uic.edu/ojs/index.php/fm/about">About</a></li>
+
+					<li id="login"><a href="http://journals.uic.edu/ojs/index.php/fm/login">Login</a></li>
+							<li id="register"><a href="http://journals.uic.edu/ojs/index.php/fm/user/register">Register</a></li>
+												<li id="search"><a href="http://journals.uic.edu/ojs/index.php/fm/search">Search</a></li>
+		
+					<li id="current"><a href="http://journals.uic.edu/ojs/index.php/fm/issue/current">Current</a></li>
+			<li id="archives"><a href="http://journals.uic.edu/ojs/index.php/fm/issue/archive">Archives</a></li>
+		
+					<li id="announcements"><a href="http://journals.uic.edu/ojs/index.php/fm/announcement">Announcements</a></li>
+				
+
+									<li class="navItem" id="navItem-0"><a href="http://firstmonday.org/ojs/index.php/fm/about/submissions#onlineSubmissions">SUBMISSIONS</a></li>
+						</ul>
+</div>
+
+<div id="breadcrumb">
+	<a href="http://journals.uic.edu/ojs/index.php/fm/index" target="_parent">Home</a> &gt;
+	<a href="http://journals.uic.edu/ojs/index.php/fm/issue/view/330" target="_parent">Volume 16, Number 1 - 3 January 2011</a> &gt;	<a href="http://journals.uic.edu/ojs/index.php/fm/article/view/3156/2747" class="current" target="_parent">Ashton</a>
+</div>
+
+<div id="content">
+
+			
+
+
+<title>Awarding the self in Wikipedia: Identity work and the disclosure of knowledge</title>
+
+
+<blockquote>
+<img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28722" border="1" alt="First Monday" align="bottom"><br>
+</blockquote>
+<hr>
+<blockquote>
+
+<center><a href="#author"><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28780" alt="Awarding the self in Wikipedia: Identity work and the disclosure of knowledge by Daniel Ashton" border="1"></a></center>
+
+<br><hr>
+<br>
+
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28720" alt="Abstract"><br>The ‘behind–the–scenes’ discussion and edit pages of <em>Wikipedia</em> reveal a complex layering of debates and discussion between editors. Focusing on how <em>Wikipedia</em> ‘service awards’ can identify and distinguish editors, this paper explores the disclosure of knowledge as it is intimately bound up with identity work. Examining contributions/edits to <em>Wikipedia</em> as disclosures highlights processes of identity management and <em>work</em>.</p>
+
+<p><strong>Contents</strong></p>
+<p><a href="#p1">Introduction</a><br>
+<a href="#p2"><em>Wikipedia</em> and online profiles</a><br>
+<a href="#p3"><em>Wikipedia</em> and identity work</a><br>
+<a href="#p4"><em>Wikipedia</em> service awards and knowledge disclosure</a><br>
+<a href="#p5"><em>Wikipedia</em> as the context and practical means</a><br>
+<a href="#p6">Some (ignorable) qualifications</a><br>
+<a href="#p7">The cultural politics of knowledge disclosure</a><br>
+<a href="#p8">Conclusion</a></p>
+
+<p> </p>
+<hr>
+<p> </p>
+<p><strong><a name="p1"></a>Introduction</strong></p>
+
+<p>Moving into the discussion and edit pages ‘behind–the–scenes’ of <em>Wikipedia</em> reveals a complex layering of debates and discussion between editors. These editors can be identified through various ‘<em>Wikipedia</em> awards’. Focusing on the <em>Wikipedia</em> ‘service awards’, this paper explores the disclosure of knowledge as it is intimately bound up with identity work.</p>
+
+<p>Disclosure as a concept helps to signal how knowledge is contributed to <em>Wikipedia</em> in ways that are bound up with identity work. Given that service awards are ‘intended to be given to oneself’ rather than be awarded by others, they point to the investment and work individuals put into their <em>Wikipedia</em> profile and identity. The <em>Wikipedia</em> awards and practices of knowledge disclosure provide instructive means for exploring the management of identity and context specific identity work.</p>
+
+<p> </p>
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28713" alt="++++++++++"></p>
+<p><strong><a name="p2"></a><em>Wikipedia</em> and online profiles</strong></p>
+
+<p>Founded in 2001, <em>Wikipedia</em>, as the ‘About’ entry (<a href="http://en.wikipedia.org/wiki/Wikipedia:About">http://en.wikipedia.org/wiki/Wikipedia:About</a>) states, “is written collaboratively by an international (and mostly anonymous) group of volunteers.” The entry goes on to state that, “<em>Wikipedia</em> has grown rapidly into one of the largest reference Web sites,” and that “there are more than 75,000 active contributors working on more than 13,000,000 articles in more than 260 languages.” The following considers how these active contributors and volunteers are positioned and identified within <em>Wikipedia</em>.</p>
+
+<p>The opportunity to edit a <em>Wikipedia</em> entry is presented with each page and can be taken up anonymously without logging in. This kind of technologically mediated form of anonymity resonates with debates that emerged in the 1990s around online identities (see Turkle, 1995). In their discussion of virtual identities in wikis and social networking sites, Kerry Mallan and Natasha Giardina (2009) suggest that, “while the ‘identity’ of an individual contributor may be disguised, unknown, or revealed, there is nevertheless a ‘wikidentity’ that comes with participation,” and that this ‘wikidentity’ is “located at the interface of diverse bodies of information and communication.” In terms of <em>Wikipedia</em>, the contribution or disclosure of material may be be seen as a part of the wikidentity construction process.</p>
+
+<p>The term ‘disclosure’ appears to fit easily in discussing online identity and different degrees of anonymity and disguise. This reading could see that certain identifying characteristics are not disclosed and a form of anonymity is employed. In turn though, making a contribution or editing an existing article is a different form of disclosure — a knowledge disclosure. As the ‘wikidentity’ concept highlights, questions of identity in online contexts can be traced beyond questions of anonymity and we can examine specific ‘interfaces’. Closely focusing attention on the process of contributing offers a means to connect the contributor with the article. In this respect, <em>Wikipedia</em> provides a context and interface for ‘identity work’.</p>
+
+<p> </p>
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28713" alt="++++++++++"></p>
+<p><strong><a name="p3"></a><em>Wikipedia</em> and identity work</strong></p>
+
+<p>Tony Watson <a name="1a"></a>[<a href="#1">1</a>] usefully notes that the phrase ‘identity work’, has been used as an alternative to terms including ‘identity construction’, ‘identity management’, ‘identity achievement’, ‘identity manufacture’ and ‘identity project’, “as a way of dealing with ‘agency’ aspects of identity shaping.” In developing his own formulation that works between the personal and the social, Watson <a name="2a"></a>[<a href="#2">2</a>] suggests that a significant way to strengthen research on identity shaping would be by, “attending to what might be seen as a link between the ‘self’ aspects of identity and the discourses to which they relate.” With <em>Wikipedia</em> we can see this with the community discussion and talk pages, and with the personal, and sometimes esoteric, nature of contributions.</p>
+
+<p>Practices of contributing are bound up with all manner of personal traits, experiences and motivations. Jaron Lanier (2006) is cautious of conformist collectivism and offers the following perspective: “reading a <em>Wikipedia</em> entry is like reading the Bible closely. There are faint traces of the voices of various anonymous authors and editors, though it is impossible to be sure.” Any given <em>Wikipedia</em> entry could be the continual work and investment of a range of contributors. <em>Wikipedia</em> is marked by ongoing input; from the contributor who starts prolifically and then whose contributions peter out, to the most recent newcomer who seeks to revise years of contributions. For example, the first entry for ‘Web 2.0’ is recorded on 28 February 2005 at 20.17. Since then, as the ‘revision statistics history’ indicates, there have been thousands of edits both from registered users and those unnamed users distinguished only by IP (Internet Protocol) addresses.</p>
+
+<p>Contributing and editing articles to <em>Wikipedia</em> takes place in dialogue and negotiation with other users. On one hand, contributions may be anonymous and/or ephemeral. On the other hand, these contributions can be targeted and part of a wider process of contribution and participation. Along these lines, Mallan and Giardina (2009) suggest that, “claiming individual ownership of parts of a wiki runs counter to the way wikis operate.”</p>
+
+<p>The award system that has emerged within <em>Wikipedia</em> highlights that forms of recognition are entwined with editorial activities and that these can be both part of and distinct from the wider social environment. This interpretation connects with Tony Watson’s focus on the ‘inward’ and ‘outward’ aspects of identity work. Working between wider discourses, such as other <em>Wikipedia</em> contributors, and the ‘self’ is an important step in exploring the disclosure of knowledge and claiming of awards as a form of identity work.</p>
+
+<p> </p>
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28713" alt="++++++++++"></p>
+<p><strong><a name="p4"></a><em>Wikipedia</em> service awards and knowledge disclosure</strong></p>
+
+<p>In the following, different award systems will be introduced in relation to social and private forms of identity work and management. Before doing so, some important methodological points are needed. Whilst materiality has been stressed in connecting the contributor with actual postings and edits, this article does not draw on empirical research with any of these contributors/editors. Equally, more detailed accounts of practices and frequencies of awarding oneself service awards have not been gathered. Rather, my aim here is to draw out what the concept of disclosure helps unpack for examining online identity work.</p>
+
+<p>In exploring the contributions made to <em>Wikipedia</em> and the claiming, giving and display of the awards for a <em>Wikipedia</em> online profile, the notion of disclosure helps signal that these editorial activities are a strategy of identity work alongside the production of knowledge.</p>
+
+<p>Knowledge is disclosed as part of a wider system of activity and meaning bound up with identity work. The language of contributing and adding indicates that knowledge is brought to <em>Wikipedia</em>. The language of disclosure helps to signal that the contributions are processed. <em>Wikipedia</em> is the context and site within which information may be added and revealed.</p>
+
+<p>The processing work of disclosure can be identified in terms setting up an account, selecting and monitoring topics and entries, developing materials using the ‘sandbox’, and then posting. Noting these stages, the language and process of disclosure becomes more apt. Further to this, identity work takes place in the management of the online profile and the claiming and display of services awards. The claiming of certain awards represents knowledge management bound up with the shaping of aspects of identity.</p>
+
+<p>There are a number of award categories within <em>Wikipedia</em> that can be awarded by others and claimed by individuals for themselves. Some awards are for topics areas, such as ‘The Music Award’ or ‘The Star Trek Award’. Other awards are given for general contributions, such as ‘The Mouldy Sandwich’ that is awarded for those continually working on and bettering <em>Wikipedia</em>. Further to these, there are the ‘Personal User awards’, “given to honor specific actions or events — or to spread good cheer!” Out of the range of awards, some are more clearly focused on awarding activities and roles performed.</p>
+
+<p>The ‘barnstar’ award was introduced to <em>Wikipedia</em> in December 2003 and “since then, the concept has become ingrained in the <em>Wikipedia</em> culture […] It is the custom to reward <em>Wikipedia</em> contributors for hard work and due diligence by awarding them a barnstar” (Awards, at <a href="http://en.wikipedia.org/wiki/Wikipedia:Awards">http://en.wikipedia.org/wiki/Wikipedia:Awards</a>). Significant to these given awards is that the orginator of the award and those that give the awards are also recorded. The barnstar award then is explicitly enmeshed with the <em>Wikipedia</em> community (notwithstanding the possibility of an editor establishing a profile to give awards to another of their profiles).</p>
+
+<p>In contrast to the ‘barnstar’, the service awards on <em>Wikipedia</em>, as made clear in the guidance, are “unlike other awards given through a process or from one editor to another in a show of appreciation, [… and are] intended to be given to yourself” (awards). Service awards are organised in terms of a hierarchy from ‘novice editor’ to ‘master editor’. However, as the entry for the awards makes clear, they are a “way of acknowledging an editor’s level of contribution based on specific benchmarks, including the number of contributions the editor made to <em>Wikipedia</em>, and the length of time they have been registered” and the award is “achieved strictly by a mechanical count of time registered and number of edits.” In this respect, the service awards are a means in which a contributor to <em>Wikipedia</em> can distinguish their profile through their own quantifiable activities removed from other users. It is a part of their online profile that can be managed and developed.</p>
+
+<p>As Lee Salter (2006) emphasizes in his discussion of participatory media, the “Internet and its users are materially embodied entities that exist in politically and economically regulated space.” Highlighting the materiality of <em>Wikipedia</em> contributions and edits alongside the claiming of service awards emphasizes the range of investments and forms of identity work.</p>
+
+<p>In their research with young people on social networking sites Mallan and Giardina (2009) suggest that, “young people are not simply adapting their identity work to fit these technological applications. Rather, they are engaging creatively with the principles of Web 2.0 and manipulating identity presentation applications to suit their needs.” I would echo this approach to technologically mediated identity work with regard to <em>Wikipedia</em> contributors/editors who develop their profile. Sensitivity may be identified to the mechanics and context of <em>Wikipedia</em>, and that their knowledge disclosures connect with their identity work. In their discussion of wikidentities, Mallan and Giardina (2009) suggest, “when an individual or group constructs an online profile, the resultant ‘identity’ gives a particular interpretation or representation.”</p>
+
+<p>In the claiming and displaying of service awards, we could say that individuals are constructing and managing their online <em>Wikipedia</em> profile. As Paul du Gay’s (2007) perspectives on the cultural–material making up of persons helps raise, this is not to say that knowledge disclosure be reduced to identity building. What does emerge though is <em>Wikipedia</em> as the context and practical means through which knowledge disclosure can be connect with identity work.</p>
+
+<p> </p>
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28713" alt="++++++++++"></p>
+<p><strong><a name="p5"></a><em>Wikipedia</em> as the context and practical means</strong></p>
+
+<p>Du Gay’s approach to the cultural–material making up of persons, draws attention to “both the contexts within which and the practical means through which individuals are equipped with the capacities to conduct themselves as particular sorts of persons” <a name="3a"></a>[<a href="#3">3</a>]. Adopting this, <em>Wikipedia</em> provides the context and practical means for identity work that is explicitly, but not exclusively, bound up with knowledge disclosure. This perspective helps situate the claiming of service awards in relation to the knowledge disclosures needed to achieve the awards.</p>
+
+<p>Importantly, du Gay (2007) goes on to stress that a particular form of personhood, for example the <em>Wikipedia</em> contributor, is just one way in which individuals may come to understand and relate to themselves. The claiming and displaying of the service award may be seen as a means through which the ‘<em>Wikipedia</em> contributor identity’ is constructed. Each contribution or article edit is a disclosure that can be measured and claimed as a service award and wedded to the formation and development of a <em>Wikipedia</em> profile.</p> 
+
+<p>This focus on knowledge work and identity work that the notion of disclosure helps bring to the fore, poses some relevant questions for thinking through questions of identity and online profiles. For instance, Mallan and Giardina’s (2009) statement that, “the narratives of identity and agency that have traditionally been available to young people are being replaced by new ones that are the direct outcome of the larger technologically mediated world we all now inhabit”, can be rearticulated in relation to the mediation of knowledge. The reference to ‘young people’ is particular to their study, but the ‘narratives of identity and agency’ they refer to can be considered through the lens of knowledge and identity work on <em>Wikipedia</em>. Narratives of identity may be technologically mediated, but practices of knowledge production are also technologically mediated.</p>
+
+<p>When we explore the connection between narratives of identity and knowledge production, a much fuller understanding of identity work is possible. This sees identity work as it is closely connected with the other things we do and the contexts for these, for example editing <em>Wikipedia</em>. The concept of disclosure gets at these multiple processes and how they work together — the revealing of knowledge and building and revealing of identity.</p>
+
+<p><em>Wikipedia</em> co–founder Lawrence Sanger (2009) suggests that, “despite the sort of anti–expert bias on <em>Wikipedia</em>, it remains the case that a person who appears to write authoritatively, who has the facts at his command as an expert typically does, and who can marshall them effectively in a dispute, has a decided advantage on <em>Wikipedia</em>.” Beyond discussing expertise, Sanger’s (2009) comments help highlight the process of knowledge disclosure (writing style, research) and that this has material impacts on the interpretations and representations of that contributor that can form. Service awards act as indicators both for others and those that display them. These service awards illustrate a form of identity work that comes with contributing, or disclosing, to <em>Wikipedia</em>.</p>
+
+<p> </p>
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28713" alt="++++++++++"></p>
+<p><strong><a name="p6"></a>Some (ignorable) qualifications</strong></p>
+
+<p>In March 2007, it was revealed that the contributor with the username ‘Essjay’ was not a professor of religion at a private university as claimed, but a college student (BBC News, 2007). This ‘<em>Wikipedia</em> Storm’ highlights a number of things in terms of the disclosure of knowledge and identity.</p>
+
+<p>Firstly, related to Lawrence Sanger’s earlier comments on expertise, adopting the status of a professor for this college student clearly indicates the purchase of certain identifiers such as title.</p>
+
+<p>Secondly, in terms of fakery, we cannot assume the merit or standing of particular knowledge disclosures. Whilst this student college adopted a fabricated identity, they still endeavored, with the help of the For Dummies series, to provide accurate statements. In turn, there have been numerous postings to <em>Wikipedia</em> in which content fakery has been the goal — (un)knowledge disclosures.</p>
+
+<p>The article ‘Can you spot the real <em>Wikipedia</em> fake’ offers a number of purported ‘false and made up statements’ posted by ‘mischievous Internet users’. These include the entry for ‘Pole Dancing’ as, “Pole dancing is a form of dancing/gymnastics that takes muscular endurance and coordination as well as a person from Poland” (Supanet, n.d.). This highlights that contributors to <em>Wikipedia</em> may not seek to claim ‘service awards’ and/or participate in the rewards process, and also that contributors/editors may post statements in ways that do not “augment the knowledge held by the <em>Wikipedia</em> encyclopedia” in anticipated and encouraged ways.</p>
+
+<p><em>Uncyclopedia</em>, “an encyclopedia full of misinformation and utter lies”, goes further in highlighting and celebrating misinformation on the Internet and the posting of humorous and satirical takes on topics, such as the ‘Jennifer Anniston nude pictures’ that are natal scans. As the ‘Beginner’s Guide’ states, “we are not <em>Wikipedia</em>, but that should already have been plainly obvious. Fact is discouraged, comedy is paramount” (<em>Uncyclopedia</em>, 2006). <em>Uncyclopedia</em> tellingly plays on the conventions of <em>Wikipedia</em> in the way it is organised and presented, and the through the distinctive <em>Uncyclopedia</em> approach to article policy: “a standard that everyone should follow, unless they don’t want to, in which case they are free to ignore it”.</p>
+
+<p>This policy ‘guidance’ neatly captures the community ethos played off against the free reign that editors are encouraged to take with the veracity of their postings. There are significant aspects of dialogue and collaboration such as the ‘Pee review’ system, but unlike <em>Wikipedia</em> there are no services awards. This distinction between <em>Uncyclopedia</em> and <em>Wikipedia</em> provides an instructive final point for considering the cultural politics of knowledge disclosure and identity work.</p>
+
+<p> </p>
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28713" alt="++++++++++"></p>
+<p><strong><a name="p7"></a>The cultural politics of knowledge disclosure</strong></p>
+
+<p>With <em>Uncyclopedia</em> we can identify an interest and enthusiasm for parody. In common with <em>Wikipedia</em>, the collaborative and community elements are key and <em>Uncyclopedia</em> stresses the importance of constructive entries rather than the degenerative editing of others. <em>Uncyclopedia</em> facilitates the recognition of articles and has a nominating and voting process to highlight articles. Also, similar to <em>Wikipedia</em>, credit is given in the form of awards for those that clean up and make <em>Uncyclopedia</em> tidy with regard to its editorial policy (and comically for those that give ‘generic contributions’, take doses of humiliation and come back, and who disregard editing conventions). The key distinction between these sites though are the service awards.</p>
+
+<p>This distinction emphasizes the specificity of the context and that the forms of identity work possible within <em>Wikipedia</em> are bound up with disclosures that can garner measurable kudos for an online profile in the ‘serious’ business of editing online encyclopedias.</p>
+
+<p> </p>
+<p><img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28713" alt="++++++++++"></p>
+<p><strong><a name="p8"></a>Conclusion</strong></p>
+
+<p>Online communities present diverse ways for users to undertake identity work. The <em>Wikipedia</em> service awards with the self–claim element highlight that identity work is rooted in the structures and processes of the context. In the case of <em>Wikipedia</em>, we can identify structures and processes of knowledge disclosure. Identity work connects with technological specificity, and personal and social impulses.</p>
+
+<p>By examining <em>Wikipedia</em> contributions/edits as disclosures rather than additions, attention may be drawn to processes of management and identity work. Here, disclosure is understood as a process of revealing in dialogue with context. This article has suggested with <em>Wikipedia</em> the disclosure of knowledge is entwined with the building and revealing of identity. <img src="http://journals.uic.edu/ojs/index.php/fm/article/viewFile/3156/2747/28721" alt="End of article"></p>
+        
+<p> </p>
+<a name="author"></a>
+<p><strong>About the author</strong></p>
+
+<p>Dr. Daniel Ashton is senior lecturer in media and cultural studies in the School of Humanities and Cultural Industries, Bath Spa University<br>
+E–mail: d [dot] ashton [at] bathspa [dot] ac [dot] uk</p>
+
+<p> </p>
+<p><strong>Notes</strong></p>
+
+<p><a name="1"></a><a href="#1a">1.</a> Watson, 2008, p.126.</p>
+
+<p><a name="2"></a><a href="#2a">2.</a> Watson, 2008, p.127.</p>
+
+<p><a name="3"></a><a href="#3a">3.</a> Du Gay, 2007, p. 22.</p>
+
+<p> </p>
+<p><strong>References</strong></p>
+
+<p>BBC News, 2007. “Fake professor in <em>Wikipedia</em> storm” (6 March), at <a href="http://news.bbc.co.uk/1/hi/world/americas/6423659.stm">http://news.bbc.co.uk/1/hi/world/americas/6423659.stm</a>, accessed 10 October 2009.</p>
+
+<p>Paul du Gay, 2007. <em>Organizing identity: Persons and organizations ‘after theory’</em>. London: Sage.</p>
+
+<p>Jaron Lanier, 2006. “Digital Maoism: The hazards of new online collectivism,” <em>Edge</em> (30 May), accessed at <a href="http://www.edge.org/3rd_culture/lanier06/lanier06_index.html">http://www.edge.org/3rd_culture/lanier06/lanier06_index.html</a>, accessed 10 October 2009.</p>
+
+<p>Kerry Mallan and Natasha Giardina, 2009. “Wikidentities: Young people collaborating on virtual identities in social network sites,” <em>First Monday</em>, volume 14, number 6, at <a href="http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/2445/2213">http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/2445/2213</a>, accessed 10 October 2009.</p>
+
+<p>Lee Salter, 2006. “Democracy &amp; online news: Indymedia and the limits of participatory media,” <em>Scan</em>, volume 3, number 1, at <a href="http://scan.net.au/scan/journal/display.php?journal_id=70">http://scan.net.au/scan/journal/display.php?journal_id=70</a>, accessed 10 October 2009.</p>
+
+<p>Lawrence M. Sanger, 2009. “The fate of expertise after <em>Wikipedia</em>,” <em>Episteme</em>, volume 6, number 1, at <a href="http://www.euppublishing.com/doi/abs/10.3366/E1742360008000543">http://www.euppublishing.com/doi/abs/10.3366/E1742360008000543</a>, accessed 10 October 2009.</p>
+
+<p>Supanet, n.d. “Can you spot the real <em>Wikipedia</em> fake?” at <a href="http://www.supanet.com/computing/can-you-spot-the-real-wikipedia-fake-23734p1.html">http://www.supanet.com/computing/can-you-spot-the-real-wikipedia-fake-23734p1.html</a>, accessed 10 October 2009.</p>
+
+<p>Sherry Turkle, 1995. <em>Life on the screen: Identity in the age of the Internet</em>. New York: Simon and Schuster.</p>
+
+<p><em>Uncyclopedia</em>, 2006. “A beginner’s guide — Purpose,” at <a href="http://uncyclopedia.wikia.com/wiki/Beginner's_Guide/Purpose">http://uncyclopedia.wikia.com/wiki/Beginner's_Guide/Purpose</a>, accessed 10 October 2009.</p>
+
+<p>Tony, J. Watson, 2008. “Managing identity: Identity work, personal predicaments and structural circumstances,” <em>Organization</em>, volume 15, number 1, pp. 121–143.<a href="http://dx.doi.org/10.1177/1350508407084488">http://dx.doi.org/10.1177/1350508407084488</a></p>
+
+<p> </p>
+<hr width="300">
+
+<p><strong>Editorial history</strong></p>
+<p>Received 26 January 2010; revised 20 November 2010; accepted 2 December 2010.</p>
+
+<hr>
+
+<p><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png"></a><br>“Awarding the self in <em>Wikipedia</em>: Identity work and the disclosure of knowledge by Dr. Daniel Ashton is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons
+Attribution–NonCommercial–NoDerivs 3.0 Unported License</a>.</p>
+ 
+<p>Awarding the self in <em>Wikipedia</em>: Identity work and the disclosure of knowledge<br>by Daniel Ashton.<br><em>First Monday</em>, Volume 16, Number 1 - 3 January 2011<br>
+http://journals.uic.edu/ojs/index.php/fm/article/view/3156/2747</p>
+</blockquote>
+
+
+
+	
+					
+
+
+<!-- start AddThis -->
+						<script type="text/javascript">
+				var addthis_pub = 'sgroote@uic.edu';
+			</script>
+				<br>
+		<br>
+		<div class="addthis_container">
+			<a href="http://www.addthis.com/bookmark.php" onmouseover="return addthis_open(this, '', '', 'Awarding the self in &lt;em&gt;Wikipedia&lt;\/em&gt;: Identity work and the disclosure of knowledge')" onmouseout="addthis_close()" onclick="return addthis_sendto()">
+					<img src="http://s7.addthis.com/static/btn/lg-share-en.gif" width="125" height="16" border="0" alt="Bookmark and Share" style="border:0;padding:0">
+			</a>
+			<script type="text/javascript" src="http://s7.addthis.com/js/200/addthis_widget.js"></script>
+		</div>
+	<!-- end AddThis -->
+
+
+<!-- Google Analytics -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-41314203-1";
+urchinTracker();
+</script>
+<!-- /Google Analytics -->
+
+<br><br>
+A Great Cities Initiative of the University of Illinois at Chicago <a href="http://library.uic.edu/">University Library</a>.<p>© <em>First Monday</em>, 1995-2014.</p>
+</div>
+<!-- content -->
+</div>
+<!-- main -->
+</div>
+<!-- body -->
+
+
+
+</div> <!-- container -->
+</body>
+</html>

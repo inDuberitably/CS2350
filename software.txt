@@ -1,0 +1,1287 @@
+                                         ConscientiousSoftware
+
+
+                      Richard P. Gabriel                                             Ron Goldman
+
+                Sun Microsystems Laboratories                               Sun Microsystems Laboratories
+
+                  Menlo Park, California, USA                                 Menlo Park, California, USA
+                      rpg@dreamsongs.com                                          ron.goldman@sun.com
+
+
+
+Abstract                                                         catcherrorsandautomaticallyrecoverfromthem,thatautomati-
+Software needs to grow up and become responsible for itself      cally configure themselves during installation, that participate
+                                                                 in their own development and customization, and that protect
+and its own future by participating in its own installation and  themselvesfromdamagewhenpatchesandupdatesareinstalled.
+customization, maintaining its own health, and adapting itself   Such software systems will be self-contained, including within
+to new circumstances, new users, and new uses. To create such    themselves their entire source code, code for testing, and any-
+software will require us to change some of our underlying as -   thing else needed for their evolution.
+sumptionsabouthowwewriteprograms.Apromisingapproach
+seemstobetoseparatesoftwarethatdoesthework(allopoietic)             Furthermore, we need to make the state of each component
+from software that keeps the system alive (autopoietic).         more visible and make our components interact more richly &
+                                                                 more fully. We need to use softer, more dynamic architectures
+CategoriesandSubjectDescriptors D.2.5.[SoftwareEngineer-         thatsupportaddingorreplacingmodulesafterdeployment(e.g.
+ing]TestingandDebugging—Errorhandlingandrecovery;D.2.11.         plug-ins, dynamic loading of classes) and architectures where
+[SoftwareEngineering]SoftwareArchitectures;D.3.0.[Program-       objects can be repaired in situ, methods changed / added, inter-
+
+ming Languages] General; H.1.2. [Models and Principles] User/    nal state restructured, and object hierarchies rewired). We also
+Machine Systems—Human factors                                    need new types of languages to describe the architecture of our
+General Terms Design, Human Factors, Languages, Reliability      systems. We will not “program” in these new languages—they
+                                                                 probablywon’thavearithmeticoperators,datastructures,orlow-
+Keywords Robustness, software, self-sustaining systems, emer-    levelcontrolstatements—butinsteadexpressthingslikewhento
+gence,autopoiesis,stigmergy,continuous(re)design,self-testing,   createandkillcomponents,wherecomponentsarerun,whento
+feedback, software complexity, repair                            run tests, and which components interact with each other.
+
+                                                                    Asoursoftwarebecomesevermoreinterdependent,withappl-i
+1.	 Introduction                                                 cationsrelyingon(remote)servicesdevelopedbyotherorganiza-
+                                                                 tions,italsomustparadoxicallybecomemoreindependent,able
+   oftware systems today are produced according to a manufac-    to maintain its integrity in a changing environment. Interfaces
+S  turingmodel:Afinishedproductisconstructedatthefactory         between components need to become less brittle and more ac-
+and shipped to its final destination where it is expected to act commodating—notrequiringanexactmatchlikeakeyinalock,
+like any other machine—reliable but oblivious to its surround-   butbasedmoreonpatternrecognitionsuchasphenotropics[20].
+ingsanditsownwelfare.Responsibilityfortestinganddevising
+how to install the software rests with the development team.     We also need to better isolate components from each other—in
+Oncedeployed,softwareisonitsown,alongwiththepeoplewho            biology this is referred to as spatial compartmentalization [19],
+                                                                 for computing it may translate into components not sharing
+mustuseit.Theresultofthiswayofdoingdevelopmenthasbeen            common memory or other resources.
+brittle, buggy software where the only recourse for end-users is    Recent applications are beginning to exhibit these proper -
+to hope the next release will fix the problems (and not add too  tiesandthistrendwillincrease,reflectingtheneedforsoftware
+many new ones).                                                  systemstochangecontinuouslyovertheirlifetimes.Manyofthe
+   We believe that software needs to grow up and become re -
+sponsible for itself and its own future. Moreover, the people us-ideas we present in this paper are based on the changes we see
+ing the software every day must be able to shape and customize   occurring in current software. We use the term “conscientious
+                                                                 software”todescribecodethattakesresponsibilityforitselfand
+it without reliance on the software’s original developers. In thiits future. The following is our vision for the future.
+paperwewillarguethatfutureinnovationsinsoftwarewillneed
+to produce systems that actively monitor their own activity and
+their environment, that continually perform self-testing, that   2.	 Software	Complexity
+                                                                 Over the last forty years we have attempted to create ever more
+                                                                 ambitious systems, but their complexity often exceeds our abili-
+
+                                                                 ties as witnessed by how brittle most software is and how many
+                                                                 softwareprojectsfail.Whileourcurrentmethodshavemanygood
+  cial-ShareAlike 2.5 License.a Creative Commons Attribution-NonCcharacteristics they do not successfully address the complexity
+ of modern software systems. We need to adopt new principles         history / state information hardware too is subject to bugs (e.g.
+ and approaches if we are to progress.                               the Pentium math bug [28] in which the results of the division
+    Software complexity arises in large part from the inherent       algorithm depend on intermediate partial results and the path
+ complexity of the problems we are trying to solve. We lack good     taken through a faulty lookup table).
+ modelstodescribetheorganizationofcomplexsystems.Weknow                Asifourproblemswithcurrentsystemswerenotenough,even
+
+ how to decompose large problems into smaller ones, but we are       bigger systems are on the drawing board. Plans for ultra-large-
+ notsogoodatdescribingtheinteractionsamongsubcomponents.             scale (ULS) systems consisting of billions of lines of code spread
+ Forexample,wedonothaveagoodvocabularytodiscussmultiple              over thousands of widely distributed multi-cpu computers are
+ feedback loops and the emergent behavior they can generate.         nowbeingproposed.Thesesystemsmustruncontinuously,even
+    We also have trouble when different aspects of a problem re-     as individual components / computers come and go. In order to
+
+ quirefundamentallydifferentdecompositions.Forexample,when           create such systems we need new approaches to how we design
+ designingaspacecraftcontrolsystemthereisa“natural”decom-            software. [35]
+ positionintosubsystemsanddevices.Howeverwhendealingwith
+ the limited power budget or the attitude control system, there      3.	 Continuous	(Re)Design
+ are “a tangle of special-case subsystem-to-subsystem couplings
+ behind a façade of modular decomposition” [7]—consider that         Thepracticeofcontinuous(re)designwillmovefromthefactory
+                                                                     to the field and large lump development will fade away. Develop-
+ spinning up a disk drive consumes power, generates heat, and        mentstrategieshavechangedovertimeasit’sbecomeclearthat
+ actsasagyroscope.Thisinteractionofconcernsgoesbeyondthe
+ ideaofseparationofconcernsthataspect-orientedprogramming            it’s not possible to get static requirements right the first time
+ (AOP) tries to address.                                             around.Fromheavydesign-before-codingmethodologiestoagile,
+    The sheer complexity of the problem and its solution makes       people have tried to capture via processes the elusive nature of
+                                                                     getting things right. The trend has been toward entangled inter-
+ it practically impossible to capture such interactions in a static  actions with end-users and customers in order to find out what
+ specification. The experience at Tandem Computers of trying
+ to create reliable systems found that many failures were due to     the software needs to do and how it is most congenially used.
+ faultsinthespecifications.Specificationsarealwaysincomplete         However, the watchword is still getting things right.
+ and often just plain wrong—moreover requirements are always            But because requirements are static doesn’t mean that soft-
+ changing. Methodologies with an incremental approach of con-        ware viewed over time stands still. Programs evolve and change,
+                                                                     butonlythroughadevelopmentprocessbackatthefactory.Bug
+ tinuous(re)designareabettermatchtochangingspecifications.           reports,comments,suggestionsandrequirementsdeterminedby
+ Relatedtothisistherealizationthaterrorsareunavoidable,due
+ tobugsintheimplementationandalsofromunexpectedinputs                a marketing group, bright ideas, and new technology combined
+ fromtheenvironment,sowemustdesignoursystemstocontinu-               with a development group produce the next version of the soft-
+ ally run tests and repair errors.                                   ware. Static requirements change over time, and in this narrow
+                                                                     sense,it’spossibletoviewsoftwareasalivingentity—adaptable,
+    Going from problem requirements to system design creates         flexible, malleable, resistant to failure. But not self-sustaining.
+ an explosion of derived requirements (the requirements for a
+ particulardesignsolution);thelistofimplicitrequirementscan             Designislessaresultofprehocplanningthanofslowlydawn-
+ be 50 times greater than the original problem-focused require-      ing insights—insights derived from seeing how the thing turns
+ ments. [11] Lots of details need to be filled in when translating   out and is used. Continuous (re)design will move out into the
+                                                                     field because the field is where the observations are immediate
+“what to do” (describing the problem to be solved) into “how to      and changes can be tested rapidly in situ.
+ do” (describing how the problem is to be solved). This includes
+ translatingtheproblemintocomputerterms,specifyingrequired             Already some programs offer personalization and customiza-
+ components, and even mapping the work to the organization of        tion allowing users to participate in the design of the software.
+ the people developing the solution. Again we lack good models       Some basic looks, feels, and behaviors can be changed by tailor-
+ and higher-level abstractions to talk about complex, interacting    ingmenus,addingkeyboardshortcuts,anddefiningmacrosand
+                                                                     scriptsthataddbehaviorandprovideworkarounds.Manyofthe
+ processes.                                                          options are available through a mechanism called “preferences,”
+    Anothermajorsourceofcomplexityisunplannedinteractions
+ between components—cross-talk where bugs or changes in one          whichisasetofattributeswhosevaluescanbeset,suchascolors,
+ piece of code affect quite distant, seemingly unrelated pieces of   field placement, and the like. Preferences are like wall coverings
+ code. These implementation combinatorics make it impossible         andcolor,windowtreatments,artwork,and,toadegree,furnish-
+                                                                     ings. (Furnishings are perhaps more like plug-ins.)
+ to thoroughly test software: Even 100% test coverage cannot ac-
+ count for code interactions, e.g. an error manifests only when a
+ particular combination of logic paths is executed. And beyond       4.	 Soft	/	Dynamic	Architectures
+ the lowest level of unplanned direct interactions there are the
+ unplannedindirectones.Exampleswouldbefeedbackloopscre-              With the advent of softer / more dynamic architectures, change
+                                                                     to programs will be welcome, even encouraged. Today, software
+ atedwhichcausenewandcomplexbehaviortoemerge.Another                 developmentisaprocessofbuildingstaticartifacts—staticmean-
+ would be system-wide interactions which could cause oscilla -       ingtheprogramwillnotchangeoncedelivered,remaininginflex-
+ tions (again this involves feedback)—sometimes via unplanned        ible or subject only to foreseen adaptations. A good metaphor is
+ and unthought-of shared paths like indirectly shared resources.
+ Lastly would be emergent behavior resulting from new interac-       ahighway.Constructingahighwaytakesalotofeffortincluding
+ tion patterns. Hardware is generally more robust because it is      expensive and disruptive land purchases. Once the dimensions
+                                                                     andcourseofahighwayareset,theyarestableandstaticuntila
+ more modular (and less state dependent). Where it relies on         major change is made. Word processors are near the extreme of
+                 softarchitecturalelement                                         softarchitecturalelement
+
+
+
+
+
+
+
+
+
+                                                     Figure 1: Soft Architecture
+
+
+ suchstaticprograms:usefulforwritingandrevisingdocuments                 Some applications, such as spreadsheets, enable their users
+ withawidevarietyofstylesbothvisualandartistic,butitsown              tocollaboratebyaddingnewmacrosandsharingtemplates.Not
+ future on a writer’s computer is rigid—nothing changes.              everyonecanwritemacros,butoneortwotinkerersinacompany
+    Not all software is totally static, and such programs begin       can make extensions to the spreadsheet primitives that others
+
+ to point the way to change. Plug-in architectures and web-ser-       can then easily use in their formulas. [26] An architecture that
+ vice-based applications can be changed once installed by add-        supports scripting or a macro language adds another layer that
+ ing modules that provide services based on defined protocols         enablesuserstomodifyanapplication’sbehaviorwithoutneeding
+ and interfaces. Adobe Photoshop™ is the classic example; and         to send it back to the factory for the professional programmers
+
+ browsers,integrateddevelopmentenvironments,andoperating              to rework. If such an architecture also supports adding plug-in
+ systems are built this way. Here the good metaphor is a house,       modules then that opens the door for the do-it-yourself user to
+ which is also (usually) carefully planned (by an architect), but     really customize the application to his or her local needs.
+ which can be and frequently is customized by its occupants in           Beyondsuchsoftnessesaresoftwarearchitecturesthatmake
+
+ both small and large ways.                                           changes to themselves over time: dynamic adjustments to both
+    StewartBrandlooksatbuildingsashavingsixlayers:thephys-i           stateandbehaviorasthestuff(components/architecture)adapts
+ calsite,theload-bearingstructure,theexteriorsurfaces,theguts         to the environment in which it finds itself. We can imagine ob-
+ ofserviceslikewiringandplumbing,theinteriorlayout,andthe             jects augmenting themselves, changing their algorithms, evolv-
+ stuff in the building like desks and phones. The timescale and       ing through competition, and rewiring their relationships as
+
+ effort needed to make a change varies across these layers; site      they evolve.
+ is eternal, while stuff can easily be changed daily. [3] Our com-
+ putersystemsalsoconsistoflayers:programminglanguagesare              5.	 In(ter)dependent	Software
+ at the bottom, then hardware, operating system, libraries, and
+                                                                      Softwarewillbeconstructedfromcomponentsthatwanttoform
+ applications.Applicationsgenerallyconsistofoneormorelevels           a community. Systems will be components—either within the
+ ofcompiledcode(e.g.aframeworkandapplicationlogic)witha
+ fewpreferencesettingssothattheusercanmodifythelookand                sameaddressspaceornot—thatinteractasneeded,evensuppos-
+ feel.Ontopofthatisthelayeroftheuserdata,correspondingto              edly / originally monolithic systems. This will enable us to treat
+ Brand’s stuff in the building—though in many applications the        everysystemasifitwereadistributedsystem,whichmightmean
+                                                                      that systems can be more robust to single-point failures.
+“desks” are bolted to the floor.
+    When thinking of software architecture, you probably are             Components will be constructed to minimize or ameliorate
+ imagining an architecture diagram made of bubbles with lines         version differences and calling convention mismatches. Today,
+ betweenthem—perhapsaframework(abigbubblemaybe)with                   strange as it seems, components are written—such as dynamic
+                                                                      link libraries (DLLs)—with inflexible interfaces so that slight
+ components (the little ones) where the lines mean communica-         mismatches halt reasonable operation of a system. The result is
+ tionthroughasmallpipe,likeaninterface.Thisiswhatwehave
+ today. But what would it be like to imagine a diagram like this      almost as if the designers of the components (or more properly,
+ where two components (red star and blue ellipse) have melded         the overall OS-level system architecture) were more interested
+                                                                      intheircodeanddesignspunishingsimplemistakesratherthan
+ with the framework (orange blob)? [Figure 1]                         trying to make that code work around those mistakes to get
+
+                                                                      something running.
+ Brand’s layers correspond to permanence. For software, changing to a   AnapproachlikeLanier’sphenotropicscouldhelp.Phenotropic
+ programminglanguagewithsemanticsnotlikeFortran,C,orJavawould         computinguses“surfaces”forinterfacesratherthandirectargu-
+ (rationally) require a new hardware platform. In fact, hardware (evenment-based / protocol-based interfaces. Each component has a
+ struction sets) has changed more than the basic semantic structures of
+ our programming languages, and so the languages form the most basic  surfaceonwhichisdisplayedinformationaboutwhatitisdoing
+                                                                      and that it would like to communicate to another component
+ layerforus.Sometimesthestackisdrawnasanhourglasswithhardware         (or other components). Two components interacting observe
+ at the bottom, programming languages at the narrow waist, and applica-
+ tionsatthetop.Thisemphasizeshowapplicationsaredecoupledfromthe
+ hardware through the use of a standardized programming language.     Digital software evolution
+each other’s surfaces and react to what they “see” or “sample.”        idea),sowhycan’tIusenotonlythestyleIlike(Emacscommands
+Approximation replaces perfection, and the result can be more          asmentionedbefore),buttheverysameEmacsineverysituation,
+
+accommodating but perhaps less optimized behavior. This is in          which I may have customized beyond recognition?
+contrasttoourcurrentuseofrigid,minimalisticAPIswhereone                   Anotherapproach,ofcourse,isasystemwidepreferencemech-
+agent essentially reaches inside another and commands it to do         anism where specific preferences would be looked up in a hierar-
+some function (i.e. a remote procedure call). Instead the first        chicalstructure.Thisisthestandardizationapproach.Although
+agent would present a request that the second could interpret          thiswouldworkfinewereittohappen,therealisticlikelihoodof
+
+and deal with as best it can. Other agents might also choose to        thatislow.Togetthemajorityofoperatingsystem/application
+participate by transforming / translating the original request,        writerstousesuchasystemwouldrequireamandatedstandard,
+forwarding the request to an appropriate agent, or working on          which is unlikely for user experience. Moreover, for a long time
+itthemselves.Theagentmakingtherequestneednotevenknow                   therewillbeasignificantpopulationoflegacycodethatwillnot
+
+which agent(s) will eventually handle it.                              use the standard. And then there are the renegades.
+                                                                          Moreover, there is a real question about whether and when
+6.	 Self-Installation                                                  standardization is the right solution to a problem. Standardiza-
+                                                                       tion requires universal adoption, and, when achieved, tends to
+Software in the future will take an active role in its own instal-
+                                                                       promote inflexibility. And once standardization is taken as the
+lation. At present, many programs are considered properly in-          key, it is typically taken too far, so that we end up, for example,
+stalled once the correct bits are in the right locations. And even     with a monoculture.
+this problem is not as well addressed as it could be: There are           Better, we think, is ad hoc and independent flexibility, recog-
+numerousinterdependenciesthatgointoproperinstallation.In
+recent years—with software updates—the installation scripts            nizing that multiple standards / dialects will always exist, each
+                                                                       of which will change over time.
+have become more sophisticated, but when more permanent
+layers(intheBrandsense)areinstalled,theprocesscanrequire
+extensive human in(ter)vention. In fact, the outermost (appli -        7.	 Continual	Installation
+cationmost)layersaretheplaceswhereinstallationhasbecome                Inourvision,theinstallationprocessneverends:Asnewsoftware
+
+easier for the installer.                                              and hardware are installed, already installed software should
+   Ignoredaspartofinstallationarethesometimesdozensofad-               continuetheinstallationprocess,learninghowtheinterestsand
+justmentspeoplemaketotheentiresetofinstalledprogramsto                 habitsofitsusersarechangingovertime.Whatitlearns—notthe
+makethecomputing/digitalnestcomfortable(again). Firstare               personal things like where its users surf and the kinds of books
+
+theobvious,suchas:Althoughthereareahandfulofcommands                   and videos he or she prefers—can be sent back to the sleepy de-
+for moving through text, the gestures a person likes for various       velopers back at the plant who can move their agile fingers into
+of them—though knowable—are never addressed. If it’s even              gear to keep progress happening. Later or someday, this knowl-
+possible to make a program that manipulates text use Emacs            edge can be used to self-adapt the software.
+
+command gestures, why should a person have to figure out how              Relatedtoinstallationisthemassiveupgrade:buyingthatnew
+to program / customize / personalize the software? Gestures            heavy-liftingdesktopmachineorthespryandminisculeportable
+are just part of it. The look and feel should be adaptable too. As     laptop/palmtop/fingertop/pintop.Whenanewcomputersys-
+stylesheets for application look and feel become more prevalent,       tem is acquired, all that should need be done is to point the old
+
+these can form the basis for adapting to a preferred use scheme.       system at the new and have them “sync.” “Sync” in the sense of
+   Each program should endeavor to discover such customiza-            compatiblyinstallingeverythingandreadjustingtothenewsur-
+tions.Further,itshouldbepossibleforonepersontotransferhis              roundings.Mostsoftwaremanufacturerstreattheupgradeasan
+orhercustomizationstosomeoneelsewhocouldthenapplysome                  opportunity (provided for free) for the users to clean house—to
+                                                                                                                          6
+or all of them either temporarily or permanently.                      reinstalleverythingthatwaspreviouslyinstalled. However,the
+   Inthesamevein,otheraspectsofthepreferreduseofsoftware               massive upgrade is not a fresh start: It’s an increment over the
+canbededucedandaccommodated.Forexample,wheninstalling                  old environment because people expect the continuity of their
+a web browser, the browser can notice that one of its potential        lives to dominate the stutter of technological progress. And a
+usersisalsoanardentuserofAdobe™productsandtoconfigure                  new system should consider itself (anthropomorphically) to be
+
+the browser to use Acrobat™’s PDF browser plug-in instead of           installingitselfinanold,establishedenvironment.Boththeold
+someotherone.Theoverallusercolorschemecanbeintelligently               and new must adapt.
+guessedatandcompatiblecolorscanbechosen.Aprogramthat                      Of course, none of this should be irrevocable. Any customiza-
+manipulatestextcantrytodeterminehowspellcheckingisdone                 tionsandinstallationsshouldbetrivialtobackoutoforalter.It
+             5
+around here. For example, I (one of the authors), like many in         shouldalwaysbethecasethatanyinstallationcanbecompletely
+my generation, like to use Emacs for manipulating text. Many           and accurately undone.
+programsmanipulatetext.Iamnotparticularlyinterestedinthe
+next person’s bright idea of how to do it (unless it is a fabulous
+
+
+ And this is the problem of (re)installing inner, permanent layers.
+
+ Emacs is a text editor widely used by programmers. It is highly custom Apple’s OS X has a Migration Assistant which performs the easier half
+izable but has a distinct set of default key bindings.
+                                                                      of this when a new version of the operating system is installed—it copies
+ At one extreme this can be taken as an example of the idea of common  files from the old system, ignoring files supplied by the new version. It
+modules, typically selected by the user for some specific advantage.   doesn’t do any “readjustments.”
+8.	 Beyond	Installation                                               comes the reality of a population of individuals —individual
+                                                                      instances of the same program, software, component, or sys -
+Someday the manufacturing model may become passé. Con -               tem—and with this it becomes possible to think about advanc-
+sider the notionof noinstallationorcertainlynore-installation         ing the species by selective crossbreeding and other means typi-
+at all. In such a world, perhaps the only starting point would be
+a single object which would, like a seed, begin to use resources      callyusedinhusbandry.Whereastodayamonocultureishighly
+                                                                      valued, in the future not only will it have lesser or no value but
+available to it to compose the “application,” if it even makes        it may become obsolete. In such a world, the value of common,
+sense to use that word. The seed would assemble components,           nonprogram-specific standards for data, control, and behavior
+download clones, etc. to custom build and wire itself into the
+worldinwhichitlives.Whenanupdatewasdesired,theobjects                 exchange will increase.
+                                                                        Another good result is the possibility of eliminating the prob-
+themselves might morph, according to instructions received            lemoflostsourcecode,whichisasurprisinglypervasiveproblem
+from the original authors, while retaining customizations they        with legacy software. The company that created the software
+had adaptively designed. In this way, objects change in situ and      you run goes out of business and no one cares about the source
+thesystem/applicationneverreallyrestartsnordoesitlosethe
+benefit it has had from living in the world with its users.           code or thinks it’s important; an outside group wrote the soft-
+                                                                      ware for your company and it’s backed up on a tape that’s then
+                                                                      lost. This would never happen were software always packaged
+9.	 Buildable	Packaging                                               with everything you need. And there would be fewer problems
+                                                                      re-establishing the work environment.
+We imagine that software will be more completely packaged. In-
+stead of just binaries and some support files, each piece of soft-
+warewillcontaineverythingitneedstobefurtherdevelopedby               10.	Software	as	an	Active	Collaborator	/
+localsoftwaredevelopers. Today,ifanysortoflocaldevelopment
+                                                                          Participant
+ispossible,it’sbecausethesourcecodeandrequiredsupporting              Softwareshouldtakeresponsibilityforitsownfuture—notmean-
+materialcanbeloadedontoalocalmachineorsuchamachineis
+accessibleovertheinternet.Ingeneral,onlyopensourceandother            ing software broadly construed but meaning each recognizable
+source-availablesystemspresentthisoption—andevenwhenthe               program, package, and application. After all, software can act,
+                                                                      it can sense some part of its environment, and it can react to
+source code is available, the right compiler might not be, etc.       changes, so why should software remain passive once it’s been
+   A system delivered completely packaged like this would be
+easy to modify for those capable of it; those whose knowledge         unleashed to the world? The attitude that a program’s actions
+and skills are limited will still be able to make stylesheet-based    should be limited to what was planned at the factory reminds
+andotherconfiguration-file–basedchanges.Someoftheexpected             us of what Marvin Minsky wrote in “Why Programming Is a
+                                                                     Good Medium for Expressing Poorly-Understood and Sloppily
+customizations include the ability to adapt the code more pre-        Formulated Ideas”:
+cisely to the local environment, perhaps by the encapsulated de-
+velopmentsystembeingabletosenseitsenvironmentandshape                     There is a popular, widespread belief that computers
+the code a little better.                                                 candoonlywhattheyareprogrammedtodo.Thisfalse
+   Howtoimplementthisisproblematicatthemomentbecause
+                                                                          beliefisbasedonaconfusionbetweenformandcontent.
+therearemanysortsandlevelsofdependenciessoftwarecanhave                   Arigidgrammarneednotmakeforprecisionindescrib-
+on its build and execution environments. For example, how can             ingprocesses.Theprogrammermustbeveryprecise in
+thedependenceonaparticularversionofalibraryoroftheoper-                   following the computer grammar, but the content he
+atingsystemforthatmatterbecaptured?Thesesortsofdifficul-                  wants to be expressed remains free. The grammar is
+
+ties can be handled by packaging up all the dependencies (and             rigidbecauseoftheprogrammerwhousesit,notbecause
+perhaps storing them in a central location for all instances that         ofthecomputer.Theprogrammerdoesnotevenhaveto
+share dependencies), but such an approach doesn’t handle the              be exact in his own ideas—he may have a range of ac-
+executables, like the compilers. The problem is that a compiler           ceptablecomputeranswersinmindandmaybecontent
+needs to execute on a machine that exists, and it needs to pro-           if the computer’s answers do not step out of this range.
+
+duce code for the target machine. This is probably a case where           The programmer does not have to fixate the computer
+standardizationcanhelp:Agivenplatformisverylikelytohave                   with particular processes. In a range of uncertainty he
+a compiler for a popular or mandated standard programming                 may ask the computer to generate new procedures, or
+language.Anotherpossibilityforexecutablesisavirtualmachine                he may recommend rules of selection and give the com-
+that executes the compiler; porting the virtual machine should
+                                                                          puter advice about which choices to make. Thus, com-
+be relatively easy and possibly standardly done.                          puters do not have to be programmed with extremely
+   There can be other advantages that derive from complete                clearandpreciseformulationsofwhatistobeexecuted,
+packaging. For example, the existence of slightly different ver-          or how to do it.
+sionsofsomesoftware—whichcouldverywellendupinteracting
+                                                                                                                Marvin Minksy [25]
+with each other—raises such questions as what constitutes the           Software should be able to examine its environment prior to
+essenceofaprogramandwhatkindsofvariationsarepermitted
+whileretainingitsidentity.Withsuchaself-enclosedmechanism             installation, monitor changes to its operating conditions and
+                                                                     adapt to them as best it can, observe the state of its own health
+
+
+Such a packaging has numerous copyright and intellectual property is-Thisalreadyistruebutnotwidelyrecognized.Anyrealrunningsystem
+sues, similar to those found in open source software.                 runs a variety of release and patch levels.
+ andattendtoit,payattentiontohowitshumanusersuseitand                      Indeed, the compulsive programmer’s excitement rises
+ become easier to use, provide for its own improvement at the              to a fevered pitch when he is on the trail of a most re-
+ hands of local developers (perhaps by noticing and remarking              calcitrant error, when everything ought to work but the
+ on places where users had difficulties such as frequent requests          computerneverthelessreproacheshimbymisbehaving
+
+ in one spot to undo an operation), accept extensions and cus-             inanumberofmysterious,apparentlyunrelatedways.It
+ tomizations, and, finally accept and provide for its own death            isthenthatthesystemtheprogrammerhascreatedgives
+ and replacement.                                                          every evidence of having taken on a life of its own, and
+    In short, software should act like a living collaborator in its        certainly,ofhavingslippedfromhiscontrol.Thistoois
+
+ ownfutureandnotlikeamanufacturedmachinewaitingforob-                      thepointwheretheideathatthecomputercanbe“made
+ solescencetoovertakeit—thereisn’tevenanyminimallyvaluable                 todoanything”becomesmostrelevantandmostsound-
+ scrap metal or plastics to salvage. Just about everything else we          ly based in reality. For, under such circumstances, the
+ buy as consumers is subject to being repaired or tinkered with            misbehaving artifact is, in fact, the programmer’s own
+ givenenoughknowledgeand/orbravery—thisisthelegacyofthe                    creation. Its very misbehavior can, as we have already
+
+ physicalworld:It’sjustnotpossibletowalloffeasilythebusiness               said, be the consequence only of what he has done.
+ endofmostmacroscopicphysicalmachinesthewayit’spossible                                                      Joseph Weizenbaum [40]
+ to wall off from reasonable intrusion the parts of software (and
+ microscopicmachineslikeCPUs)thatmakeitreadilymalleable.                  To understand the source of invasive and pervasive failure
+ That is, the source code for a corporeal machine is not behind a      consider that no apple failed to fall because someone forgot to
+                                                                       tell it to.
+ firewall on its makers’ server.
+    Some languages—Lisp [23, 2, 36], Smalltalk [12], Self [37],
+ and others—provided some steps in this direction by being re-         12.	Seek	Out	and	Repair	Errors
+ active. Terms used in those times to describe such systems /
+                                                                       We expect software will become like living organisms. We are
+ environments / languages include “exploratory programming,”           talkingaboutself-sustainingandself-repairingprograms—run-
+“rapid application development,” and “interpreted.” In a reactive      ningcodethatisbuggybutcopingwiththosebugsandperhaps
+ environmentchangesareimmediate—theresponsetoachange                   repairingsomeofthem orrepairingthedamagedone.Moreover,
+ is instantaneous—so not as much “bravery” is needed to dive in
+ and see what happens. Such systems increase the possibility of        we are talking about software that continually adapts to its en-
+                                                                       vironment, both at installation time and afterward.
+ salvaging an old bit of software. How often has it been just one         In most software there are data structures which are used by
+ thing you’d like to change about an application’s behavior? In        the processes the software embodies. Typically these data struc-
+ a reactive world you could just make that change and see what
+ happens.                                                              turesareby-productsofthecomputationbutsometimestheyare
+                                                                       used to direct parts of it. Such data can be tested for integrity,
+                                                                       consistency, and, sometimes, correctness—repairing data can
+ 11.	Failure	is	Common                                                 be a potent form of self-repair.
+                                                                          Self-sustaining and self-repairing programs are possible and
+ We will assume it. This has been substantiated by numerous
+ studiesofsoftwarefailuresandfamouslylongbuglistsformost               necessary. Today, safety-critical systems are deployed for which
+ software systems. David Hovemeyer and William Pugh have               stopping and awaiting human intervention after a failure has
+ reported:                                                             occurred is simply out of the question. Even a system for which
+                                                                       shutdownisreasonableneedstoshutdownsafely.Someresearch-
+      we have found that even well tested code written by ex-          ers(Rinard:[31],[32];Patterson&Fox:[5],[6],[27];Evans:[10])
+      perts contains a surprising number of obvious bugs.
+                                                                       have been exploring ideas for self-repair, rapid recovery from er-
+                                          David Hovemeyer [14]         rors,andfailuretolerance.Tomanypractitionerstoday,theideaof
+                                                                       recoveringfromanerrorgoesagainstthegrain:theerrorshould
+    To write a program or system assuming that nothing will go         neverhavehappened—it’stheresultofbaddesignorbadcoding.
+ wrong—eveninthepartsbeingwrittenatthatverymoment—is
+ foolish, and software written this way in a few years will not be     Or bad requirements or specifications, or because the software
+ tolerated and people who design and program that way will be          ends up in an unexpected environment, perhaps because the
+ barredfrompracticingtheart.HereJosephWeizenbaum’spoint                environment is being updated / upgraded.
+                                                                          The changes we foresee have as much to do with vocabulary
+ of view is illuminating:                                              and metaphors as with new techniques and technologies. Let’s
+     The psychological situation the compulsive program -
+                                                                       look at one of the first instances of a program that used self-re-
+      mer find himself in while [fixing a bug in his code] is          pair rather than absolute correctness.
+      strongly determined by two apparently opposing facts:
+      first, he knows that he can make the computer do any-           <story>
+      thing he wants it to do; and second, the computer con-              In 1958, John McCarthy was thinking about a symbolic dif-
+
+      stantly displays undeniable evidence of his failures to          ferentiation program in a programming language that was later
+      him. It reproaches him. There is no escaping this bind.          to become Lisp. He was concerned about the “erasure problem”:
+     The engineer can resign himself to the truth that there
+      are some things he doesn’t know. But the programmer              
+      moves in a world entirely of his own making. The com-             Self-repair of code can be approached variously. One promising vein is
+                                                                       tothinkaboutbuildingsoftwarethroughgeneration—fromsomemodel
+      puter challenges his power, not his knowledge.                   orspecificationorbysomeprocesswhoseinitialconditionscanbevaried
+                                                                       and the code regenerated.
+no-longer-neededliststructureneedstoberecycledforfutureuse.                 niquesthatmonitortheexecutionand,whennecessary,
+In subsequent languages, such problems were handled either by               respond to faults or errors by taking action to appropri-
+the structure of the program being restricted to trees (stack al-           ately adjust the state or behavior.
+                                                                                                                    Martin Rinard [31]
+locationofdataanditstriviallyautomaticdeallocationthrough
+stack popping) or by explicit allocation and deallocation (mal-           The moral is not that Lisp researchers scooped the aspects
+loc/free). His comment on erasure / explicit deallocation:             and recovery-oriented programming guys by about 0 years but
+
+     Therecursivedefinitionofdifferentiationmadenoprovi-               to note that the metaphor of conscientious computing can be
+     sionforerasureofabandonedliststructure.Nosolution                 effective if thoroughly adopted. The people who wrote the first
+     was apparent at the time, but the idea of complicating            garbage collectors weren’t bogged down by the belief that a pro-
+                                                                       gramismanufacturedinoneplaceforuseinanother,butbelieved
+     the elegant definition of differentiation with explicit
+     erasure was unattractive.                                         that a programming language was based at least in part on a
+                                            John McCarthy [24]         runtime environment in which the software would continually
+                                                                       evolve—possibly in response to changing requirements or the
+   It’sworthapausetonoticethestyleofresearchdescribed.Mc-              changing nature of interdependent software.
+Carthy and his colleagues were trying to design a programming             In this case, the simplicity and elegance of the program (sym-
+
+language. Part of their methodology was to write the program           bolic differentiation was the example that drove the thinking)
+they thought should be able to do the job and not the program          was not to be compromised by the intrusion of an unrelated as-
+that a compiler or execution system would require to make the          pect of the program (its memory management needs). Instead
+programrunwell.Infact,thebeautyoftheprogramwasforemost                 the program was allowed to fail (to run out of storage because
+in their minds, not correctness down to the last detail. Beauty.
+                                                                       the programmer “forgot” to deallocate used memory cells), and
+Remember that word.                                                    byaprocessofobservingitsenvironment(noticingitwasoutof
+   Eventually the first Lisp implementers decided to ignore the        memory), it was able to avert disaster and initiate a process of
+bug—thefaultofnotexplicitlyerasingabandonedlistcells,caus-             repair to fix the mess the programmer’s faults created. Impor-
+ingtheerrorofunreachablecellsaccumulatinginmemory,lead-                tantly,thememorymanagementconcernhasbecomeisolatedina
+
+ingtoafailuretolocateafreecellwhenoneisexpected—untilthe               separatemodule—separatefromtheprogramtheprogrammeris
+failure occurred and to repair it then. This avoided the problem       interested in, and in fact, separate from every other program. 10
+of entangling a common set of functionality (keeping available            This is the sort of thought process we believe will become
+all the memory that should be) with a pure and clear program           prevalentinthefuture,butexecutedwithmoregusto(and—let’s
+
+(symbolicdifferentiation).Thefailurethefaulteventuallycaused           face it—more guts, too).
+wasrepaired,alongwithalotofothersimilarerrorsinaprocess                   Garbage collection is not the only example of the sort of pro-
+named at the time and still called garbage collection.                 gramming practices we are talking about. We include as exam-
+                                                                       ples utilities that repair and defragment disks, that rotate log
+</story>
+                                                                       files and otherwise cleanup from the normal (and abnormal)
+   Theentanglementoferasurecodewiththesymbolicdifferen-                activities of a complex system, and that are used as preventa -
+tiation code reminds us of the problem aspects address:                tives.Virus-protectionsoftwaresimilarlylooksfromtheoutside
+                                                                       at messages and other downloaded or created files for signs of
+     Wehavefoundmanyprogrammingproblemsforwhich                        errors or pathology.
+     neither procedural nor object-oriented programming
+     techniques are sufficient to clearly capture some of the             Someoftheseutilitiesaretriggeredbyevents(likeafilebeing
+     important design decisions the program must imple -               downloaded)andothersarescheduled(likelogfilerotation).But
+     ment. This forces the implementation of those design              in all cases the problem-detection and repair code are indepen-
+                                                                       dentofthecodethatexperiencestheproblem.Thecoderepaired
+     decisionstobescatteredthroughoutthecode,resulting
+     in“tangled”codethatisexcessivelydifficulttodevelop                and the repair code are decoupled, which is central in the same
+     and maintain.                                                     way that by being decoupled from the design and implementa-
+                                                                       tion of the tested code, testing code is effective. Such a decou-
+                                       Gregor Kiczales et al [16]      pling,though,isnoteffectivewhentherearesimilarorcommon
+   The combination of inelegance and the foolishness of pursu-         design / implementation points. If both the repair and repaired
+
+ing perfection seem to combine:                                        code need to (correctly) implement the same difficult-to-imple-
+                                                                       0
+     The Goal of Perfection is Counterproductive: The                    A related idea is leasing: A resource is allocated to a particular process
+     aspirationtoeliminateasmanyprogrammingerrorsas                    or program, but only for a specified time. If the process or program “de-
+     possiblecreatesadevelopmentprocessthatdiffusesthe                 sires” to retain the resource beyond its lease duration, it must renew the
+     focus of the project, wastes engineering resources, and           leasebeforeitrunsout.Iftheprocessorprogramfails—crashes,goesinto
+     producesbrittlesoftwarethatishelplessinthepresence                a loop—the lease will not be renewed and the resource will be returned
+                                                                       to the system. This is like the garbage collection scenario except it is not
+     of the inevitable errors or faults. A more productive as-         the failure of a particular component within a system that is at stake
+     piration is to develop systems that contain errors and            but the failure of the entire system. And in the garbage collection case,
+     sometimes behave imperfectly, but remain within their             a program notices that it has allowed its memory to fall into disrepair,
+     acceptable operating envelope.                                    while in the leasing situation, the overall system notices the failure only
+
+     Flawed Software Has Enormous Value: The most                      through a form of insurance policy—or one might view it as a form of
+     productive path to better software systems will involve           emergence: nothing is specifically looking for the failure of a component,
+                                                                       but the effects of such a thing happening are handled by a mechanism
+     the combination of partially faulty software with tech-           that assumes failure.
+mentalgorithm,thenperhapsthesameerrorswillappearinboth                 tive; suchtestscanbeusefultodeterminewhethertheenviron-
+pieces of code, and the repair will not be effective.                  ment is changing or degrading. In such a regime, tests should
+   Moreover, some of the preventatives, such as anti-virus soft-       lookoutwardaswellasinward—outtowardtheenvironmentas
+
+ware, perform automatic self-updates over the internet. This is        wellasmeasuringtheeffectsoftheenvironmentonthesoftware.
+inconcert with ourbeliefthatsoftwareiscontinually installing          When an update is downloaded—along with its new tests—all
+itself and actively improving. Such updates are provided by peo-       testswillbe(eventually)runandtheresultssentbacktowherever
+ple,buttheyneednotbe:Theymightbefromadesignfarmthat                    thechangesreflectedintheupdateweremade.Thisway,thesoft-
+
+is continually improving software through a process of digital         waredeveloperswillhavethebenefitofthetestingenvironments
+software evolution or other automatic mechanisms.                     of all instances of the code, and there won’t be as much need for
+   Errorsaretypicallyhandledbyexceptionhandlers—codethat              anextensiveandvariedtestingfarm.Almosteveryinstallationis
+is activated when a failure occurs. But the ultimate cause of the     different, because the exact needs of users depends on the com-
+failure—thefault—mightnotbeapparent.Therefore,errorsmust               plete local computing environment: different hardware, differ-
+
+be sought out, through aggressive means like continual testing        ent drivers, different optional or custom packages and libraries,
+andotherbadsmelldetection.Andassomeresearchersarenow                  different patches and patch levels, and on and on. Perhaps even
+discovering (and the inventors of garbage collection discovered        the order of installation makes a difference, particularly when
+a long time ago), repairing damage and the results of erroneous        software is customized based on what is already in the system.
+
+execution can be an effective way to keep a program or system         We don’t need to imagine some complicated learning environ-
+operating properly.                                                    ment—thepersonorpeopleusingasystemcancustomizeit,and
+                                                                       howtheydosodependsonwhattheyknow,theexperiencesthey
+12.1	 Don’t	Seek	Out	and	Repair	Errors                                 have, and the work they do, which are all influenced by what is
+                                                                      already installed on the computer.
+Some errors don’t need to be fixed, and in fact, the very act of
+fixing them can cause more harm than good. [32] Sometimes it              Many software developers don’t like to write tests, although
+                                                                       those in the agile software development movement put writ -
+makesmoresensetoobserveandnoteproblems,perhapstrying                   ing tests at the center of design and implementation. For them,
+tokeeptrackofcoincidentalevents,filesopen,etc.,withtheidea             the tests are executable requirements. Their fervor over testing
+that perhaps with this information—if the error turns out to be
+serious enough to fix—repairs can be made.                            doesn’tgofarenough:Testsshouldbedesignedtorunallthetime
+                                                                      after the software is installed. If the tests are also continually
+   As noted by Rinard and his colleagues, code can be parti -          samplingandtestingtheenvironment,theycanhelpaprogram
+tioned into forgiving and unforgiving regions. Errors in unfor-       avoid disasters and alert the users of the host computer of prob-
+givingregionsleadtofatalerrorsorunacceptableresults.Errors
+in forgiving regions may result in bad or marginal results, but        lems. Such testing is part of the concept of feedback, a principle
+typicallyusefulresults.Theexampletheygiveisofsoftwarethat             on which life depends.
+                                                                         When testing is part of the culture of programs, and once
+decodes and plays mpeg files. The part of the code that locates        softwareisshippedwitheverythingneededtomodifyit,thepos-
+importantmetadataintheinputstream—whichenablestherest                  sibility arises of users creating tests that reflect their usage pat-
+ofthecodetoproperlydisplaythevideostream—isunforgiving;                                                                              12
+an error here causes an infinite loop, early termination, or no        terns.Suchtestswouldbeusefultotheoriginalprogrammers.
+
+video to be displayed. The code that displays video information       14.	 Exercise
+from the input stream—once that information is found—is for-
+giving because generally errors there cause only degraded video        Many of the behaviors we expect to see in future software come
+/ audio quality.                                                       from the idea of exercise. When we currently think about “ex-
+
+   Ideally,thesystemwouldbeabletodetermineforitselfwhich              ercising software,” we imagine simply using it or testing it—or
+errors are bad enough to be fixed and which not, perhaps by ob-        perhapsit’sclosertothedetailsofwalkingthedog.Butforpeople,
+serving the amount of pain the error causes in users of the soft-     exerciseisawaytostrengthen,andwhenweexerciseourminds
+ware or in other parts of the system.                                 ourmentalfacultiescanbeimproved.Manyofourexpectations
+
+                                                                       for the future involve the idea of experience changing software.
+13.	Write	Tests	and	Continually	Run	Them                              We have known for decades that one of the deep difficulties of
+
+Components of a system will be continually running tests—self
+tests, environment tests, communications tests, etc. This will         Couplingtestswithrepairmeansthattheeffectofasoftwarebugcanbe
+form a matrix within which various feedback loops will keep            corrected or mitigated (possibly through rebooting, reinitializing a data
+theoverallsystemrunningwell.Atthemoment,mostprograms                   structure, or returning an acceptable value), but the actual bug remains
+                                                                       in the code until fixed by developers.
+andsoftwareoperatelikebullsinachinashop:Theyblastahead
+assuming everything will go their way. Instead, well-designed          To the first order, unit testing does its job: Components are verified to
+software in the future will constantly be adjusting to circum -       workaccordingtothedesigner’snotionofwhatthecomponentisintended
+stances, righting itself, keeping clear of bad situations. Such        to do. Problems occur when the component is used in an unanticipated
+                                                                      way and/or the component becomes a piece of a larger complex system.
+feedback loops will exist within the software and also between        The system dynamics can cause unexpected behavior resulting from a
+the software and the software’s environment, correcting small          combination of unanticipated use of components and interactions be -
+errors and making incremental improvements to the organiza-
+tion and performance of the system.                                    tween components. State and behavior are stored in unlikely places in
+   Self-tests and other sorts of tests will help a system discover     thesystem(likethecommunicationpathwaysbetweenthecomponents);
+                                                                       our hope is that a new paradigm of testing could find ways to exercise /
+problems early, so that their correction or amelioration is effec-     test such system dynamics.
+                                                        R                                  P
+                                                                                           Y
+                                                                                                           tumble
+
+
+          attractants
+              &                                      -
+                                                     +           W   A                                          Z
+          repellents                               M
+
+
+
+                                                                                           Y
+
+                                                     P B                        B
+
+
+
+
+                                                    Figure 2: Chemotaxis
+
+producingsoftwareisthatdiscoveringrequirementsishardand            to scope out how the system is being used, so it needs to come
+trying to do so before some working version of the software is     up in a default mode—with text editing, spellchecking, etc., ex-
+available is impossible. So why should the discovery of require-   actly as some developer imagined them back at the factory. By
+mentsstoponcethesoftwareisinstalledwhentherequirements             observingothersoftwareinactionorbylookingattherecorded
+
+that depend on the local context are all around?                   histories of other software running on the system, the newly
+   This requires writing software differently—in a way that per-   installed software can learn about the usage patterns and pre-
+mits changes in situ, something that is difficult but not impos-   dilections of its users.
+sible. [12, 23, 2, 36, 37]                                           Visibility into the environment is restricted today—not be -
+
+                                                                   cause of privacy concerns or inadequate design, but because
+15.	Use	Feedback                                                   the concept is not in play. Encapsulation inadvertently is in ef-
+                                                                   fect in both directions. It is not desirable to look into a software
+Software should adapt to itssurroundingsand prevailing condi-      component by design and it is not possible to look outside of a
+tions.Feedbackisamechanismfoundinnatureandinnumerous               component(fromwithinit)becauseit’snotaconceptincontem-
+mechanical designs to provide stability and adaptation in the
+                                                                   porarycomputing.Communicationacrossasoftwarecellbarrier
+face of changing conditions.                                       is through an interface—sometimes through arguments as in
+   In biological systems, feedback plays a decisive role in main-  procedural code or through method calls (or message-passing)
+tainingcellularfunctions.Chemotaxis[Figure2]isanexcellent          in object-oriented code. But as any software developer knows,
+exampleofnestedfeedbackbeingusedbybacteriasuchasE.coli
+to bias their swimming motion toward food sources and away         onceinsidetheconceptualboundarybetweeninsideandoutside,
+                                                                   theprogrammer(andonemightalsosay,thecode)hasaspecific
+fromtoxins.Theoutmostfeedbackloopinvolvessensorsthatcon      -     vocabulary and set of concepts and ontologies, as does the envi-
+trol when the bacteria changes its direction. An inner feedback    ronment outside the component. The bridge that is normally /
+loop causes the sensors to adapt so they stay sensitive to small   exclusivelybuiltbetweenthetwoisthesignature(thenameand
+differencesoveraverywiderangeofconcentrations.Togetherthe
+                                                                   shapeofthecommunication)andthetypesofthepiecesofinfor-
+two loops enable E. coli to robustly follow a gradient. [1]        mation that go back and forth. This is a very information-poor
+   Some algorithms and software that control physical devices      medium.Theverynarrownessofthecommunicationchannelis
+use feedback, but otherwise it is a rare component of software.    the source of many advances in conventional computing. When
+That is, no programming language incorporates feedback as an
+essentialmechanism,butitis,instead,relegatedtotheprogram-          correctness and optimality is foremost, the narrower the chan-
+                                                            13     nels of communication the better.
+mer to explicitly construct out of low-level language features.       Visibility requires descriptions that are continually updat -
+Building feedback requires variables, numbers, comparisons,        ed —for example, descriptions of what’s inside a system’s soft-
+and loops. Therefore, software developers—especially junior
+ones—don’t think in terms of feedback.                             warecomponents,howarunningsystemiscurrentlyconfigured
+                                                                   andwhatit’sworkingon,whichusersusewhichsoftwareandin
+  —Even though feedback is essential to living systems.            what ways, etc. And visibility benefits from abundance—a rich
+
+16.	Make	Things	Visible
+                                                                   A description is not a representation. A representation can sometimes
+System components will be able to see out into their environ -     be thought of as a model of something else, usually in the real world. Ma-
+ments and into other components. When software has just in-        nipulations of the representation typically mean something regarding
+                                                                   that model. A description cannot be manipulated to create a change in
+stalleditself,itdoesn’thaveenoughexperience(orenoughtime)          thethingdescribed.Adescriptioncanbeunderstood,comparedtoother
+
+                                                                 descriptions, and actions can be taken based upon them. A representa-
+  Constraint languages—which are not widely used for application prtion is typically efficient in some way—representing just what is neces-
+gramming—may be exceptions, though feedback is typically buried in sary—while a description can be extravagant and mention a number of
+control algorithms.                                                apparently inessential things.
+interface where perhaps pattern matching and some degree of            among individuals in social insect societies. [13] A termite will
+understanding is possible.                                             pick up some mud (for instance) and invest it with her phero -
+   This sort of visibility is partly what Lanier is aiming at with     mones. This mudball will tend to attract other termites carry-
+
+phenotropic computing. Lanier thinks of surfaces that can be           ing their own mudballs, and the local effect will be to concen-
+pattern-recognizedorsampled.Wearenotparticularhowthisis                trate the mudballs in a single place, and the global effect will be
+accomplished—perhapsonly(translatable)blackboardscansuf-               to create towers and arches which are then made into termite
+ficewithsimpletextualpatternmatching.Orevenextensionsof                palaces. See also Prigogine [29] and Camazine []. In comput-
+
+somethinglikeCommonLisp’skeyword/optionalargumentlists                 ing an example of this would be a process that writes data into
+and calling conventions. Or even just posting XML documents.           a JavaSpace that other processes can then read, do some compu-
+   Making continual testing effective is another reason for vis-       tation based on what they’ve read, and then possibly write new
+ibility: Such things as the overall state of the system, what user-    data into the JavaSpace.
+visiblewindowsandprocessesareavailable,andwhattheuser’s                   Anexplicitdescriptionofthestateandhistoryofthesoftware
+
+physicalenvironmentislikeshouldbevisibleand,insomecases,               systemwouldenabletheconstructionofself-organizingsoftware
+alterable.Forexample,asI(oneoftheauthors)typethissentence,             systems—notnecessarilysystemsthatwouldself-organizetoac-
+I am also digitizing some old band tapes (the authors were in a        complishtheirdesignedfunctions butthatwouldself-organize
+rockbandtogether).ItwouldniceiftheprogramI’mwritingthis                to stay alive and healthy.
+
+paper with knew about the recording software and that it was
+running, so that it wouldn’t interfere with the program captur-        18.	Autopoiesis	/	Allopoiesis
+ing all the data in the bitstream from the digitizing hardware,
+which can happen because the operating system, OS X, doesn’t           Programmedsystemswillbecomeasliving.Onewaythatbiologi-
+know, aside from some heuristics, how I differentially value the       cal systems use feedback, visibility, and continual noticing is as
+                                                                       part of their self-generating nature: Many of the feedback loops
+operation of the two programs, nor, more importantly, how dis-
+ruptions affect the flow of the document-preparation program           inalivingsystemareinvolvedwiththeregulationofproduction
+(typically, not at all) and my perception of my interaction with       of components, proteins, and other biochemical material that
+it (minimal or not at all). The document preparation program           regulatestheproductionofotherthingsincludingtheregulators
+                                                                       just mentioned. This is essentially the concept of autopoiesis.
+couldeasilysurmisethatthereal-time–likerecordingislikelyto             Autopoietic systems are
+bealothappieriftheprogramrespondingtotypingweretogeta
+littlelesspriority—suchadiminishmentwouldbeunnoticeable                     systems that are defined as unities, as networks of pro-
+to me but degradation of the data stream would be noticeable                ductions of components, that recursively through their
+
+on the recording to everyone who listens to it. And the record-             interactions,generateandrealizethenetworkthatpro-
+ing software could likewise look out for itself, noticing I have a          duces them and constitute, in the space in which they
+multi-CPU machine and conversing with the operating system                  exist,theboundariesofthenetworkascomponentsthat
+about how to handle the situation.                                          participate in the realization of the network.
+
+                                                                                                  Humberto Maturana [21] (see also [22])
+17.	 Continual	Noticing
+                                                                          (Simply:) An autopoietic system is one that is continually
+Systems will be aware. For a system to maintain itself, it needs       (re)creating itself. It is an interrelated network of components
+to see itself, it needs some level of self-awareness.5[33, 3] It      thatbuildthatinterrelatednetworkofcomponents—thatis,itself.
+mustbepossibleforaprogrammerwhowishestowritesoftware                   And even though there might be deep connections to an outer
+that operates on behalf of its own well-being to write that code.
+                                                                       environment, the boundaries of the system are distinct.
+A current trend is telemetry. A system sends a stream of data             In living systems, living is the ultimate goal. And so the pro-
+to another which is monitoring its health. A model like this is        ductionofmorelivingstuffanditsadaptationofthatlivingstuff
+part of the solution, but only part. Telemetry represents a time-      to the surrounding conditions is in many ways more important
+varying look at one or a few aspects of a system. The visibility
+                                                                       thanthenatureofthelivingstuffitself—aslongasitcanself-per-
+required for continual noticing includes the entire status of the      petuate(moreorless).Ourprogrammedsystemsarenotthought
+system—hardware and software—as well as some information               of this way. What is important about a programmed system is
+abouteachcomponent:exceptionsthrown,errorstrapped,popu-                what it does. In this sense the software systems we produce are
+lation of inputs handled (for example).                                allopoietic:Allopoiesisistheprocesswherebyasystemproduces
+   This principle also enables the use of stigmergy as a self-or-
+                                                                       somethingotherthanthesystemitself.Weareinterestedinthis
+ganizing mechanism. According to the Wikipedia:                        other stuff and don’t care about the mechanism that creates it
+     Stigmergy is a method of communication in decen -                 beyond the fact that it creates it. The health and stability of the
+                                                                       mechanismisbesidethepointaslongasthedesiredproduction
+     tralised systems in which the individual parts of the
+     system communicate with one another by modifying                  happens. Allopoiesis is the manufacturing process abstracted.
+     their local environment.                                             Thisexplainsalotaboutourcurrentlyfairlyfragilesystems—
+                                                                       but to see it requires examining longevity. Until recently, not
+                           [http://en.wikipedia.org/wiki/Stigmergy]    manyprogramsneededtorunforextensiveperiodsoftime—op-
+   Stigmergy is a concept proposed by Pierre-Paul Grassé in            eratingsystems,certainequipment-andhuman-health–monitor-
+
+the 1950’s to describe the indirect communication taking place         
+                                                                       Most programs have requirements that prevent them from naturally
+  “Self-aware” does not require AI or consciousness. A thermostat has  beingwrittenasself-organizingsystems,butthisshouldn’tstopusfrom
+awareness. A car’s electronic ignition system is self-aware.           trying to look for ways to write such systems.
+ing software, and some embedded systems—and therefore our                rategarbagecollectionfloodpeer-reviewedvenues,signalingthe
+educational system has become geared toward teaching how to             growing acceptance of the idea. Nevertheless, software develop-
+
+designandcodeprogramsthatareusedonceorforshortperiods                   erstodaywillsometimesstillprefertowriteaprogramthatwill
+oftime.WiththeadventoftheWebwe’veseenmoresystemsthat                     leak memory until the program halts from memory exhaustion
+needtorunforlongperiods.Forexample,webservers.Theseop-                  over using an automatic system.
+erate on essentially a regenerative basis: Each server request is           The lesson from this is that there will be resistance to the
+
+handled as if it were the first and only request, and the context       creation of an autopoietic mechanism if it is slow or, worse, bug-
+for the execution is created afresh. That is, no state is carried       gy.19
+over from request to request, and it’s as if the server were being          Theflawintheearlierresearchprogrammewastoattemptto
+created each time it is needed.17                                       defineasingleprogramminglanguageorprogrammingsystemto
+
+   Whenacomplex,programmedsystemneedstoliveforalong                      serve both purposes—to operate both at the level of arithmetic
+time, living becomes the ultimate goal. Coupling this with the          and logic, procedure calls and method invocations, and also at
+need to produce the right answers, we face the following daunt-          theleveloffeedback,visibility,noticing,andliving.Anyprogram-
+ing problem: How can we structure a system which needs to                ming language that can operate at the allopoietic level is neces-
+
+recursively generate, realize, and produce itself as well as cor -       sarily fragile, and so injecting those elements in the autopoietic
+rectly produce something other than itself? —That is, how do             system will break it as well.
+we combine the correct and efficient function of an allopoietic             Moreover,theprinciplesofthetwosortsofsystemsareincon-
+systemwiththeurgetoliveofanautopoieticonethatiscontinu-                 gruous.Forexample,thinkaboutvisibility.Thereisanelegance,or
+
+ally recreating itself?                                                  perhapsit’sjustasymmetry,thattheprincipleofvisibilitywould
+   If we try to make a system more robust by adding lots of ex-         apply to the autopoietic part of a system while the principle of
+plicit exception handlers and error detection code the program          information hiding would apply to the allopoietic part:
+becomes hard to understand and very difficult to maintain. It
+                                                                             In computer science, the principle of information hid-
+goes beyond what people can really write.                                    ing is the hiding of design decisions in a computer pro-
+   An obvious alternative answer—one that was pursued a bit
+during the late 1970s and early 1980s, mostly in the artificial in-          gram that are most likely to change, thus protecting
+                                                                             other parts of the program from change if the design
+telligence community—is to create autopoietic systems instead                decision is changed.
+of the allopoietic ones that are too fragile and don’t know about
+living, and for that autopoietic system to also produce the al -                            [http://en.wikipedia.org/wiki/Information_hiding]
+lopoietic result.                                                           The purpose of information hiding plays no role in the execu-
+
+   One way of doing this requires the process that produces ulti-        tion of a program—no role whatsoever. Only a role during the
+mate results (the allopoietic stuff) also to be aware of itself, the    development of the software. Therefore, information hiding is
+stateitsin,andhowwellitisproducingbothitselfanditsresults.               partoftheprocessofsoftwarecreation,whichtakesplacewithin
+The simple garbage collection example demonstrates this. The
+                                                                         somethingcalledtheprogrammingenvironment(intheolddays)
+allocationoffreshstorageispartofthecorrectfunctioningofthe              or the integrated development environment (nowadays). There
+program, while the details of the garbage collection algorithm           is no reason that the software cannot be visible (not necessarily
+are concerned with properly and reasonably locating unreach-            alterable) during execution—or even while the software is idle.
+ablestorageforreclamation.Somegarbagecollectionalgorithms
+                                                      18                Here’s an example of why.
+don’tlocateallsuchstorage,leadingtomemoryleaks oruseless-                  Whenanewpieceofsoftwareisinstalled,itmightwonder—as
+than-perfectly timely reclamation. That is, some collectors do a         mentionedearlier—howspellcheckingisdoneintheseparts.One
+good job, but not a perfect job. Most importantly, the operation        way would be to inspect programs that are used a lot and have
+of the code that does symbolic differentiation (for example) is
+                                                                         been used frequently to see whether they provide spellchecking
+separate from that which does the memory management / era-              and whether there is a common module or at least a dictionary
+sure / garbage collection.                                               thattheuserhasaugmented.Thenthenewsoftwarecouldadopt
+   Eventhissimpleexampledemonstratesthefundamentalprob-                 (/ adapt to) the existing preferred method.
+lem with this approach: Techniques and languages suitable to
+                                                                            That is, visibility / invisibility should be valued differently
+create an autopoietic system—such as the less-than-perfect gar-         whenviewedvis-à-visthetwodifferentaspectsofaprogram:au-
+bage collectors—are (probably) not suitable for writing correct,         topoietic and allopoietic. Invisibility (ignorance of what’s really
+predictable, and deterministic code; code that correctly does            insideamodule,afunction,anobject,etc.)isvaluablewhenasof-t
+banking, for example.
+                                                                        waredevelopmentteamisworkingtoproduceasystemthatwill
+   Moreover…itisinstructivetonotethattheconceptofgarbage                 then, while executing, go on to produce something else—there
+collection was resisted by mainstream language designers until          are two allopoietic processes in play: the design / implementa-
+the mid-1990s on the grounds that it was too slow or that the in-        tion team producing the system, and the system producing its
+terruptions were too unpleasant or intolerable. Today—almost                    21
+                                                                         results. Limitedvisibility—ofthemoduleinterfaces—atsystem
+50 years after the first garbage collector was written—research
+papersonhowtoimproveoramelioratethesebadeffectsofsepa-                   
+                                                                          Evenifthereisasimplificationintheexpressionofthemechanism.Note
+To some approximation.                                                 that it takes less effort to write code in a garbage collected language, but
+                                                                         programmers didn’t / don’t accept it because of performance worries.
+A memory leak occurs when a program allocates a data structure us-     0
+                                                                          There are, however, execution-time repercussions.
+ing storage that is never re-used (i.e. deallocated or reclaimed) once th
+structure is no longer needed.                                            Butnote:Duringthedesignprocess,theinsidesofamodulearevisible
+                                                                               Autopoietic Systems               Allopoietic Systems
+       allopoietic process
+                                                                              visibility / transparency            information hiding
+            software            allopoietic           stuff                 dynamic / flexible interfaces        static / rigid interfaces
+           developers             system
+                                                                                  self-generating /              command & control /
+       allopoietic process                                                         decentralized                      hierarchical
+                             autopoietic system
+           developers                                                                 diversity                        uniformity
+                                                                                      reactive                       manufactured
+
+                                                                              abundance / redundancy             parsimony / efficiency
+
+                                                                                      emergent                  reification of properties
+                                                                                   (no reification)
+                                                                             loosely coupled interaction       tightly coupled interaction
+
+                                                                                   pattern-based                      signal-based
+
+           Figure 3: Autopoietic Software System                                     local rules                    global reasoning
+                                                                                                                     Java™, C++, C#,
+                                                                                   lithe languages
+construction time and at execution time is valuable because it                                                       usual suspects
+reduces the possibility of change to known interfaces, and the
+useofaninterfaceenablestheabilityofthepotentiallychanged                         Table 1: Autopoietic and Allopoietic Principles
+moduletosupplanttheoldone.Wheninterfacesarevisible,itis
+                                                                             Inalithelanguage,itmustnotbepossibletowriteaprogram
+readily noticeable when they change—compile-time, link-time,              thatfallsover.Asanexample,considerthegameoflife[9].Ithas
+and execution-time errors are timely.
+   Visibility is valuable to the operation of the autopoietic part        3simplerulesforthebirth,deathandsurvivalofcountersonan
+                                                                          infinite checkerboard:
+of a software system, though it may be a hazard to the allopoi-
+etic creation of the initial autopoietic system. Perhaps it would         •    Survivals.Everycounterwithtwoorthreeneighboringcoun-
+makesenseto separatetheallopoieticpartofasystem from the                       ters survives for the next generation.
+autopoietic part; schematically [Figure 3].                               •    Deaths.Eachcounterwithfourormoreneighborsdies(isre-
+
+   Theencompassingautopoieticsystemneedstoobserveitself                        moved)fromoverpopulation.Everycounterwithoneneigh-
+and its environment to know how to change and recreate itself.                 bor or none dies from isolation.
+Itmustalsohavesomeabilitytoobserveandaffecttheoperation                   •    Births.Eachemptycelladjacenttoexactlythreeneigh-
+                                                                               bors—no more, no fewer—is a birth cell. A counter is
+of components of the allopoietic system.
+   Other principles are similarly in opposition [Table 1].                     placed on it at the next move.
+   Becauseofthis,therequirementsofthetwotypesofsystems
+don’tlineup,andsodesigninganautopoieticlanguage/environ-                     Wehaveallseenanimationsoflifeconfigurations.A“program”
+                                                                          inthegameoflifeisjustanyinitialconfigurationofcounterson
+ment for allopoietic purposes is unlikely to succeed. The figure          an infinite 2-d plane. Some configurations don’t do anything in-
+[Figure 3] contains the answer. The allopoietic part of the sys-          teresting at all: They grow forever or die off or fall into a cyclic
+tem must remain in an allopoietic language (and runtime when
+                                                                          state. Others are quite interesting—in fact, the mathematician
+that’sappropriate)whiletheautopoieticpartcanbeinaseparate                 John Conway proved life is universal: That is, it can simulate a
+language—designedtododifferentthingsandwithradicallydif-                  Turing machine. But, consider that no initial configuration can
+ferent characteristics.                                                   haveafatalbuginitinthesensethatthegameoflifewillhaltor
+   Theautopoieticlanguagemust(perhaps)havenoingredients
+                                                                          experience some failure. The configuration might not do what
+that can cause errors of a nature as to crash a program written           you want (due to a fault in placing an initial counter), but any
+in it. A way to think of this is that it must be impossible to write      initial configuration will run. This is not true in a general-pur-
+a program with a certain class of bugs in it. Naturally, it’s not
+                                                                          pose programming language.
+possible for a person to write a program with no bugs, so what               Of course, this is what the type theorists aim at with (allopoi-
+we mean by this must be elaborated. Some bugs are about the               etic) type theory, but they will fail in the sense that fatal bugs
+ultimate problem, such as getting differential equations wrong,           will always be possible in the languages they work on because,
+updatingcellsinthewrongorder,orforgettingpartsofaspecifica         -
+                                                                          after all, those languages deal with numbers and arrays and
+tion,whileothersseemcenteredaroundthebusinessofprogram-                   otherinflexibleandinsensibledatastructures—datastructures
+ming per se, such as typos, fencepost errors, failing to initialize       thatdon’t,forexample,enforceapplicationanddomain-specific
+variables,etc.Thesetwoclassesoferrorsfeelverydifferent.One                            22
+iswhenwearesurprisedordiscouragedthattheprogramdoesn’t                    semantics. And if they were to succeed, well, we would simply
+                                                                          use what they produce.
+dowhatwewantandtheotheriswhenweareupsettheprogram                            But we see autopoietic languages being lithe. Lithe:
+fallsover,perhapsaftergettingnowhere.Oneisafailuretowrite
+the right program and the other is a failure to rightly write the              Readily bent; supple. Marked by effortless grace.  23
+
+program (we intended).                                                    This is true of essentially all programming languages—both statically
+                                                                          and dynamically typed.
+tosomepeople:Designdecisionsmadewithinamodulearevisibletothe
+local decision- and software makers.                                      This definition is adapted from “The American Heritage® Dictionary
+        autopoietic interface                                                             autopoietic components
+
+
+
+                                                                                                          code & data
+
+
+
+                                                                                                         Run   Repair
+                                                                                                         tests structures
+         allopoietic component
+                                                                                                         Clone self
+                                                                                                              Safe kill self
+
+                                                                                              epimodules
+
+
+
+                                                                                        Figure 5: Autopoiesis / Allopoiesis
+                     Figure 4: Epimodules
+   The structure of a system made this way would be of the allo-          In apoptosis, the destruction of a cell is triggered by an internal
+poieticpartofit—thepartthatdoeswhatthedesignersintended,                  or external signal, and the way the apoptotic process is execut-
+such as banking or web serving—embedded in the autopoietic                ed—how the cell commits suicide—facilitates the safe disposal
+
+part, which would be responsible, in a sense, for keeping the             of cell corpses and fragments. Likewise, a system module asked
+overall system alive. In one possible metaphor, it would be like          to kill itself can cleanly stop (if possible) by explicitly releasing
+Einstein’s body keeping his brain / mind working properly.                any system resources it has acquired, thereby working toward
+                                                                          the health of the system.
+<digression>
+                                                                             Epimodules, taken in the aggregate, should be able to rewire
+   We imagine a possible structure for this by the attachment             and hence recreate an entire allopoietic system, and by continu-
+(we favor this way of thinking of it rather than as a traditional         ally regenerating it, keep it healthy and alive. The requirement,
+interface,forreasonsdescribedlater)ofamonitororautopoietic                though, is to keep the allopoietic system operating properly: It
+
+interface—we will call it an epimodule—to each or some allo-              is performing some precisely specified task, and that must con-
+poieticcomponentsinanallopoieticsystem.Thepurposeofthe                    tinue.Perhapssomedegreeoftoleranceforunevenperformance
+epimodule is to monitor the behavior of the component and to              exists,buteventhatmightnotbepermitted.Theautopoieticsys-
+alteritwhenneeded.Forexample,inaconscientiousallopoietic
+                                                                          tem is there to make the overall system more robust,less fragile,
+system, the component would include all its test code. The epi-           more accommodating to users, and its own correct functioning
+module would be able to pause the component, execute its tests,           should not become a factor in the correct functioning of the al-
+and examine the results. If a new version of a subcomponent               lopoietic system.
+becomes available—say a new text processing component—the
+                                                                             Schematically [Figure ].
+epimodule can direct the component to unload / unpatch / ig-                AmoreradicalandinterestingexamplesuggestedbyArmando
+noretheoldversion,installthenewone,runtests,andtheneither                 Fox [6] is for an epimodule to observe a module’s mutterings. A
+proceed or undo the whole operation.                                      module canbe instrumented with a series of mutter statements
+   One of the more important sets of capabilities of epimodules
+                                                                          which when captured as telemetry provides the module’s inner
+would be to be able to clone and then kill a module. Imagine a            dialog. When punctuated by input and output boundaries, the
+scenario in which a component / module has a memory leak or               mutterings can be considered messages, and a Bayesian learn-
+other error whose bad effects accumulate. The autopoietic sys-            ing process can be applied to a testing corpus to learn what are
+tem through the intermediation of the epimodule can observe
+                                                                          good and bad messages. Then the epimodule can run the Bayes-
+and track this problem and at some point decide to clone the              ian network over the messages of a live module to get a sense of
+component.Ifthecomponenthasnopersistentstate,thetraffic                   whetherthemoduleisactingnormally,regardlessofwhetherits
+to the old component can be shunted to the new one. If the com-           behavior is correct. These judgments can lead perhaps to a clon-
+ponent has persistent state, the old instance of the component
+                                                                          ing and subsequent death of the original component.
+can be directed to clone itself, copying over the persistent state.         Anotherpossiblewaytoenvisiontheallopoietic/autopoietic
+In some cases—in fact, in most cases—this will have the effect            structure is to look at a speculative, different, more detailed pic-
+ofdoingastop-and-copygarbagecollectionoftheinternalstate                  ture [Figure 5]. The blue boxes represent allopoietic code—the
+of the component, thereby cleaning up / leaving behind the ac-
+                                        2                                code that does the real work and red blobs indicate autopoietic
+cumulated damage to the component.                                        code.Themainbigblueboxisacomponentinalarger(allopoietic)
+   Instead of killing the module, it could be instructed to self-         system. The bump and string on top represent its normal inter-
+destruct. This mechanism could have similar advantages as                 face and connections—think of it as the method signature and
+apoptosis, or programmed cell death, does in living systems.
+                                                                          call graph. The darker (lower) bluish box inside can be thought
+                                                                          ofastheepimoduleinterface.Itsjobistoimplementhealth-and
+ of the English Language, Fourth Edition.”                                repair-related operations within the component. We see things
+                                                                        liketheabilitytoruntests—thisincludespackagingupthetests
+  Maybe …. If the problem is in a persistent part, other techniques will
+be needed.
+themselvesandsomewayofcharacterizingtheresults—toclone                epimodules would attach themselves to components and sense
+the component, to safely kill the component, or to repair data        conditions, both inside and outside the component, and exert
+
+structures. There could be others as well, such as a tap into the     pressureonthecomponenttoruntests,etc.Notinteractthrough
+local exception handling and event environments.                      atraditionalinterface,butsenseasifsensingthedensityofchem-i
+   The red shapes outside the box, including the encompassing         cals and exert pressure as if by a suggestion or a push.
+reddish rectangle with the rounded corners, represent autopoi-           The substrate could be thought of as a medium for “smells”
+etic code. The odd shapes that change shapes and shades from          that would influence the activities of the epimodules. So, per -
+
+the outside to the inside of the component (from oval to square       formance monitoring of a component could exude a hotspot
+and from red to blue or from a darker grey to a lighter one) rep-     smell, which when sensed by other epimodules would cause a
+resent the epimodules that assist that component by keeping it        migrationofasetofcomponentstoastrongerclusterorafaster
+healthyandkeepinghealthytheentiresystemwithinwhichthat                machine. Perhaps it would be useful for the substrate to have a
+
+component exists.                                                     geometry so that concepts of distance and expanding signals
+   Epimodulescaneitherbedevelopedbytheoriginaldevelopers              could be used to model accumulating evidence or disregard ir-
+of the allopoietic code or be developed / supplied by the devel-      relevant, anomalous spikes.
+opersorusersoftheinstallationsite.Theremightbeastandard                  At this end of the spectrum, concepts like population and
+
+ecology of health maintenance code at the local site that appli-      crossbreeding could make sense so that the epimodules could
+cation systems tie into.                                             “learn”or“evolve”tobemoreeffective.Perhapsepimoduleswould
+   Further, there is no need for epimodules to execute on the         livefromnourishmentprovidedbyahealthysystemanditscom-
+same computer systems as the allopoietic code it oversees. Epi-       ponents.Perhapsepimoduleswouldeffecttheinitialinstallation
+                                                                                       27
+modules can execute on another computer system or systems             using surrogates to optimize placement and connectivity, the
+onsite or offsite, perhaps where the developers of the allopoietic    real installation taking place after some initial experimenta -
+system are located. This will reduce the performance impact of        tion—orperhapsthesurrogateswouldassemblecomponentsor
+the architecture on the implementation.                               grow them from found / sought parts and pieces in a sort of in-
+
+   Epimodule execution can also be asynchronous with respect          place development / growth process. And so on.
+to allopoietic execution. For example, the epimodules (the auto-      </digression>
+poietic system) can include extensive simulations to set param-
+eters (e.g. recompiling an allopoietic component with different          The concept of autopoiesis flows, in a way, from Immanuel
+                                                                      Kant’sanalysis,wherehecompareslivingorganismstomechani-
+compilerswitchestobettertuneitforactualuse),determinethe
+bestconfiguration,designandimplementmoreappropriateglue,              cal devices. Living organisms:
+monitoring, or protection code. 26
+   The red, blobby, autopoietic components communicate with               …Insuchanaturalproductasthiseverypartisthought
+                                                                           asowingitspresencetotheagencyofalltheremaining
+eachotherthroughthereddishbackgroundsubstrateandperhaps                    partsandalsoasexistingforthesakeoftheothersand
+bytheactionofautopoieticentitiesthatoperateinthesubstrate                  of the whole… the part must be an organ producing the
+but which are not attached to specific allopoietic components.             other parts, each consequently reciprocally producing
+   Wedon’tknowmuchaboutwhattheautopoieticpartsshould
+belike.Andinparticularwehavenotmuchofanideawhatlithe                       the others.
+                                                                                                                 Immanuel Kant [15]
+languages will be like. There is probably a continuum of likely
+possibilities. But our intuition says that nudging, tendencies,          Mechanical devices:
+pressure,andinfluencewillbemoreimportantthanexchanging
+control and data or traditional control structures and composi-            Inawatch,onepartistheinstrumentbywhichthemove-
+                                                                           ment of the others is affected, but one wheel is not the
+tion techniques.                                                           efficientcauseoftheproductionoftheother.Onepartis
+   At the conservative end, lithe languages could be declarative,
+mostlydescriptive—perhapsasetofwiringdiagramsforputting                    certainlypresentforthesakeofanother,butitdoes not
+together the system from its components, and specifications of             oweitspresencetotheagencyofthatother.Forthisrea-
+                                                                           sonalsotheproducingcauseofthewatchanditsformis
+the conditions under which to run tests, to clone components,              notcontainedinthenatureofthismaterial.Henceone
+to do internal repair, etc. These descriptions and specifications
+wouldbeinterpretedmuchasaconstraintsystemistomaintain                      wheel in the watch does not produce the other and still
+the functioning of the system and its components. As such, the             less does one watch produce other watches by utilizing
+                                                                           ororganizingforeignmaterial.Henceitdoesnotofitself
+descriptions might be ineffective but never broken.                        replace parts of which it has been deprived.
+   At the more speculative (and intriguing) end, the lithe lan -
+guage might be able to express only programs that are dimly                                                      Immanuel Kant [15]
+aware of themselves and their surroundings, but aware never-
+                                                                         Allopoietic systems are like watches: The components are
+theless. The red, blobby epimodules could be like living cells or     there for each other, but not by each other. In other words, each
+other living organisms that are attracted to components either        component does not create the others. Order, perhaps, requires
+generally or specifically—that is, some epimodules might be tai-      continual remaking because the nature of the universe is to
+loredforcertaincomponentswhileotherscouldbegeneral.The
+                                                                      unmake order. The digital world is thought to be immune from
+                                                                    such effects, being timeless, but what is sometimes forgotten is
+  Perhaps as a paid service.                                          thefallibilityofthemakers—thesoftwaredesigners,developers,
+
+  Modulobandwidthconstraints.NotethatamulticoreCPUcouldmini-          
+mize even this problem.                                                 We imagine a sort of digital stem cell.
+ andprogrammers—whocontinuallycreateflawsorfailtograsp                      lutely unpardonable in combining the proper cards in
+ thefullnessoftherequirements.Andtheseflawsaccumulateand                   proper order, for the much more important purpose of
+ operate on the whole and each other rendering errors over time.           constructing the formula itself…
+ This is why rebooting is a common resort.
+                                                                           Whentheformulaisverycomplicated,itmaybealgebra-
+                                                                           icallyarrangedforcomputationintwoormoredistinct
+ 19.	 More	Principles                                                      ways,andtwoormoresetsofcardsmaybemade.Ifthe
+
+ Although people have talked about dynamic languages, reflec-              same constants are now employed with each set, and
+ tion, meta-models, and the like, conscientious software written           if under these circumstances the results agree, we may
+ asanembeddedallopoieticsystemwithinanautopoieticsystem                    then be quite secure of the accuracy of them all.
+
+ hasneverreallybeenattemptedbefore.Thetrip-uphasbeenthat                                                         Charles Babbage [2]
+ while the initial impulse for a programming model might be to-           This is not about fault tolerance of the allopoietic part of the
+ ward an autopoietic system, the needs of the allopoietic require-
+ ments eventually come to the fore and any attempts at a radical       system,thoughtheremaybesomelessonsofvaluetheretoo.An
+ design fold back into a traditional mold.                             approachtofaulttolerancethathasbeenexploredandseemslike
+                                                                       it is an application of diversity is the use of n-version program-
+    Theautopoieticshouldnotharmtheallopoieticsystem.This               mingandvoting([17],forexample).Suchanapproachmightbe
+ might mean that the epimodules should not be enabled to actu-         anexamplewerethediversityintheversionstobetruediversity.      28
+ ally kill a module. One approach to this is to create a design lan-
+ guage for autopoietic systems that is not Turing complete, and        What we are concerned about is keeping the autopoietic part of
+                                                                       the overall system working. Therefore, it is not correctness of
+ infactquitedramaticallylimitedinitsabilities.Theautopoietic           result that is important but survivability.
+ system might be programmed in terms of flows, where informa-             When survivability is essential, redundancy may help. Re-
+ tionseepsthroughthesystemratherthanbeinginstantaneously
+ transmittedfrompointtopoint.Marketsworkbecausecurrency                dundancy achieves two things: tolerance of single fatal errors
+ flows, because goods flow. The immune system works because            and the possibility of randomness. When there are numerous
+                                                                       members of a population that in the aggregate are achieving
+ blood and other fluids flow. eBay works because reputation (re-       some purpose, the loss of a fraction of that population due to
+ lating to buyers and sellers) flows.                                  error is not important—this is obvious; randomness is less so.
+    In many cases, flow is slow / through diffusion. A web server
+ component can emit a slowly dispersing overload or hotspot            For an anthill to forage for food, a number of individuals search
+“smell”—perhapsitsinputqueuesareoverflowing.Iftheoverload              each using a random path but leaving a pheromone trail. If one
+                                                                       finds a food source, she returns with some food by following her
+ persists,thesmellaroundthecomponentwillgrowstrongerand                trailback—andaddingpheromonestothetrail.Whenotherants
+ asitdispersesittransmitsitsdistresstoautopoieticcomponents            sense the trail they follow it, further reinforcing it with phero-
+ that,whentriggeredbyasuitablethreshold,mightreplicatethe
+ stressedcomponenttorelievetheoverload.Ontheotherhand,if               mones. In this way, the redundancy enables a form of creativity
+                                                                       or problem solving.
+ the overload diminishes, the smell diminishes and doesn’t trig-
+ ger the replication.
+    Thengradients.Thisisrelatedtolocality.Aflowcanfollowa              20.	Pandora
+ gradient,perhapsfromsomeregionwhereself-recognizers/non-                                    Hope sole remain’d within, nor took her flight,
+ self–killers are created to an area where non-self has appeared.                           Beneath the vessel’s verge conceal’d from light.
+
+ Anotherexampleisinanetwork:Theautopoieticsystemcansend                                                       “Works and Days,” Hesiod [8]
+ out two flows that disperse at different rates from a persistent
+ store.Oneflowistoenableacopyofthestoretocreateareplicated            Aside from parts of some operating systems—including virus
+ site and the other flow disables copying. A copy is made at a site    protection and some of the other examples we’ve given—we in-
+ withaprobabilityproportionaltotheratiooftheconcentration
+                                                                       habitaworldwithnoautopoieticsoftware.Thefearisthatwith
+ ofenablertodisabler.Ineffect,replicantsaremadenottooclose,            software that is more like a living system—including software
+ not too far, and not in a predictable manner. [10]                    that exploits digital software evolution—we (people) will lose
+    Think in terms of layers. A system doesn’t have to be mono-        control of our software, both as individuals and as a society we
+ lithic or based on interacting components. A system based on          might become frustrated that our software takes our require -
+
+ stigmergy—reactingtoelementsoftheenvironment—canreact                 ments more as suggestions than commands. In the worst case,
+ to events, to reactions, to reactions to reactions, etc. A different  software that is obeying its own imperatives could run amok.
+ concern can be handled by a separate layer. It can be useful to       This is reminiscent of Pandora’s problem.
+ thinkintermsoflayersratherthancomponents,becauseacom-
+ ponent is an allopoietic concept.                                     KnightandLevesonreportonanexperimentwhereagroupofstudents
+                                                                       from two universities are given the same specification, have the nature
+    Diversitycreatesinnovationandsafety.Welearnedthisfrom              of the experiment (to study n-version programming) explained to them,
+ biologyandfromanycreativeactivity.We’veseenmanyinstances              and are required to use the same programming language, compiler, and
+ inordinarylifeofthefactthatadiversebasecreatesfewerpoints             platform—but any methodology they wished—to implement the specifi-
+ ofcatastrophicfailure.EvenCharlesBabbagerecognizedthisin
+ the realm of computation:                                             cation.Truediversitywouldrequire(vastly)differentlanguages,different
+                                                                       languageimplementations,relativelyindependentorevenpoorlyrelated
+     …if care is demanded from the attendants for the inser-           specifications,anddesignandimplementationgroupsthatnotonlydon’t
+      tion of the numbers which are changed at every new               know of each other, but are oblivious to the situation. And even then,
+                                                                       whether by voting or some other means the correct answer could more
+      calculation of a formula, any neglect would be abso -            reliably be gotten is not certain.
+   Pandora was created by the gods and given as a gift—along        theinsidesofmodulesvisiblefromtheoutsideinordertoobserve
+withajar—toEpimetheus,Prometheus’sbrother.Thegodswere               normal and anomalous behaviors and take corrective action.
+upsetthatthebrothershadbroughtfiretohumankind,andthey
+placed disease, death, and sorrow in the jar, and told Pandora      22.	Conclusions
+nevertoopenit.Buttheyhadcreatedherwithanunconquerable
+                                                                    We are starting to make progress; and once progress is being
+curiosity.EventuallyPandoracouldnotholdbackanymoreand               made, perhaps it will accelerate. We are still in the infancy of
+she opened the lid, letting loose the evils inside. Shocked, she
+closed the lid—but not before the evils had escaped.                computing. It is foolish to think that we have already found all
+   Fear of control loss has always been the issue for robots and    thecentralconcepts.Foryearswehavebeenstrugglingtocome
+other intelligent software from the sci-fi point of view. We feel   upwiththebestmetaphorfordevelopingsoftware:isitlikewrit-
+                                                                    ing, or engineering, or like architecture, like horticulture, like
+we are in control of our current software applications because      voodoo? Few people are ready to realize that programming is
+theyaretheresultofaconsciousdesignprocessbasedonexplicit
+specifications and they undergo rigorous testing. But we know       not like other things, but other things are like it. Programming
+that those applications contain many bugs, some of which may        is unlike anything people have done before, so the ways are lim-
+bequitedestructive.Wehavelearnedtolivewiththis,establish-           ited in which it is like other things.
+ingacertainlevelofcomfortbasedontheeffortputintotesting                Itisthereforestilloktopullideasfromlotsofdisciplinesand
+                                                                    areas of interest. We have been pulling from a variety of sources
+and debugging the software.                                         to come up with our vision for future software directions.
+   Self-sustaining systems because of their more active nature
+willrequireustogetcomfortablewithanewsetofcriteriatode-                                      h h h
+termine that a program will do what we expect it to. In addition
+to explicit testing, we will need to rely on the various feedback   Our software is like children. For a time parents must provide
+
+loops and constraints defined to keep the system in check.          everythingandbepreparedtostepintopreventthenextdisaster.
+   Movingforwardwithanytechnologythathasthepotentialof              It’snotuncommonforawakingchildtoneverbeoutofoneofits
+being independent of human control is a touchy affair. One con-     parents’ sight for years on end. We expect that after a time the
+solationcomesfromtheendingofPandora’sstoryThegods,inan              child will mature, will grow up, will be able to take care of itself,
+unusual fit of compassion, had placed Elpis—Hope—in the box.        tosolveproblems,tocope,andperhapstocontributesomething
+The evils had escaped but Elpis was still in the jar. Seeing Elpis,
+                                                                    new.Initiallyselfish—forwhatotheroptionsarethere?—thechild
+Pandora let her out and from then on there was the possibility /    becomesresponsible.Withluckorpersistenceorastheresultof
+hint / (false?) hope of cure, of life, and of happiness.            good upbringing, the child may become conscientious.
+   Weshouldstartslowlyandconstantlybuildsystemsthatself                Shall we hope similarly for our software?
+sustain. Feedback loops at all levels of scale can help.
+
+                                                                    Acknowledgements
+21.	Getting	There
+                                                                    Thanks: Gary T. Leavens, Kristen McIntyre, Meg Withgott.
+Getting to conscientious software can be done only in steps,
+though some of them require breakthroughs and new thinking.         23.	References
+Alreadysomestepsarebeingtaken:somesoftwareautomatically
+updates itself; S.M.A.R.T. hard drive technology monitors disks     [1] Alon, U., Surette, M. G., Barkai, N., Leibler, S., “Robustness
+and predicts errors; some systems support global preferences;            in Bacterial Chemotaxis,” Nature, Vol. 397, pp. 168–171,
+                                                                         January 1, 1999.
+and some operating systems engage in a small degree of self-re-
+pair, using telemetry or events; web servers spawn small server     [2] Babbage, C., “On the Mathematical Powers of the Calculat-
+processes with fixed lifetimes. These are just examples.                 ing Engine,” in The Origins of Digital Computers: Selected
+   Severalresearchershavebeenworkinginthisareaforawhile,                 Papers (3rd ed.), Brian Randell (Ed.), Heidelberg, Springer-
+and research is getting more daring. A couple of prominent re-
+searchersintheareahavealreadybeenreferredto:MartinRinard,                Verlag, 1982.
+                                                                    [3] Brand, S., How Buildings Learn: What Happens After
+DavidEvans,ArmandoFox,andDavidPatterson.Othersinclude                    They’re Built, Penguin, 199.
+Tom Knight and Gerry Sussman [18, 38, 39]. Several companies,
+notably IBM, have had projects in this area whose purpose has       [] Camazine, S., Deneubourg, J., Franks, N., Sneyd, J., The-
+been to create near-term mechanisms and products.                        raula, G., Bonabeau, E., Self-Organization in Biological
+   More importantly, as we continue to make larger and larger
+                                                                         Systems (Princeton Studies in Complexity), Princeton Uni-
+software distributed over a variety of computers in a network,           versity Press, 2003.
+producingmoreandmorevariabilityofco-existingversions,the
+results based on our current old-fashioned approaches will only     [5] Candea, G., Brown, A., Fox, A., Patterson, D., “Recovery
+get worse. This is notpessimismspeakingbutanobservation of               Oriented Computing: Building Multi-Tier Dependability,”
+thewaysinwhichtheneedforacceleratedworkinthisareawill                    IEEE Computer, Vol. 37, No. 11, November 200.
+
+become apparent.                                                    [6] Candea, G., Fox, A., “Recursive Restartability: Turning the
+   We can start on the ideas in this paper by designing systems          Reboot Sledgehammer into a Scalpel,” Proceedings of the
+withepimodulesbasedonsoftwareservicesthatarelikeplug-ins                 8 Workshop on Hot Topics in Operating Systems (HotOS-
+or that operate remotely (like telemetry) to provide some self-re-       VIII), Schloss Elmau, Germany, May 2001.
+paircapabilities.Anothersimplestepwouldbetomakemoreof
+[7] Dvorak, D., “Challenging Encapsulation in the Design of                    of the Living,” in Autopoiesis and Cognition: The Realiza-
+     High-Risk Control Systems,” Proceedings of Onward! at                     tion of the Living, (1980), pp. 59–138, 1973.
+     OOPSLA 2002, November 2002.
+                                                                          [23] McCarthy, J., Abrahams, P., Edwards, D., Hart, T., Levin,
+[8] Elton, C., “The Remains of Hesiod translated from the                      M., LISP 1.5 Programmer’s Manual, MIT Press, Cambridge,
+     Greek into English Verse,” in The Works of Hesiod, Calli-                 Massachusetts, 1962.
+
+     machus, and Theognis, London, G. Bell, 1879.                         [2] McCarthy, J., “History of Programming Languages,” The
+[9] Gardner, M., “The Fantastic Combinations of John Con-                      First ACM SIGPLAN Conference on the History of Pro-
+
+     way’s New Solitaire Game ‘Life’,” Mathematical Games,                     gramming Languages, pp. 217–223, Los Angeles, 1978.
+     Scientific American, 223, pp. 120–123, October 1970,                 [25] Minsky, M., “Why Programming Is a Good Medium for
+     http://ddi.cs.uni-potsdam.de/ HyFISCH/Produzieren/lis_projekt/
+     proj_gamelife/ConwayScientificAmerican.h.m                                Expressing Poorly-Understood and Sloppily Formulated
+                                                                               Ideas,” a slight revision of a chapter in Design and Plan-
+[10] George, S., Evans, D., Marchette, S., “A Biological Program-              ning II—Computers in Design and Communication, Mar-
+     ming Model for Self-Healing,” First ACM Workshop on                       tin Krampen and Peter Seitz (Eds.), Visual Committee
+     Survivable and Self-Regenerative Systems, 2003.
+                                                                               Books, Hastings House Publishers, New York, 1967,
+[11] Glass, R., “Practical Programmer: Sorting Out Software                    http://rafael_es_son.typepad.com/ metainformaciones/files/
+     Complexity,” Communications of the ACM, Vol. 5, No. 11,                  minsky_essay_1967.pd.
+
+     pp 19–21, 2002.                                                      [26] Nardi, B., A Small Matter of Programming: Perspectives on
+[12] Goldberg, A., Robson, D., Smalltalk-80: The Language and                  End User Computing, MIT Press, 1993.
+
+     Its Implementation, Addison-Wesley, 1983.                            [27] Patterson, D., Brown, A., Broadwell, P., Candea, G., Chen,
+[13] Grassé, P., “La Reconstruction du nid et les Coordina-                    M., Cutler, J., Enriquez, P., Fox, A., Kiciman, E., Merzbach-
+                                                                               er, M., Oppenheimer, D., Sastry, N., Tetzlaff, W., Traupman,
+     tions Inter-Individuelles chez Bellicositermes Natalen-                   J., Treuhaft, N., “Recovery-Oriented Computing (ROC):
+     sis et Cubitermes sp. La theorie de la Stigmergie: Essai
+     d’interpretation du Comportement des Termites Con-                        Motivation, Definition, Techniques, and Case Studies,” UC
+     structeurs,” Insectes Sociaux, 6:1–81, 1959.                             Berkeley Computer Science Technical Report UCB CSD-02-
+                                                                               1175, March 15, 2002.
+[1] Hovemeyer, D., Pugh, W., “Finding Bugs is Easy,” SIGPLAN
+     Notices (Proceedings of Onward! at OOPSLA 200), De-                 [28] A good summary of the Pentium math bug by Ivars Peter-
+                                                                               son can be found at   http://www.maa.org/mathland/
+     cember 200.                                                              mathland_5_12.html.
+[15] Kant, I., The Critique of Judgment, 1790; Prometheus
+                                                                          [29] Prigogine, I., Stengers, I., Order Out of Chaos: Man’s Dia-
+     Books, 2000.                                                              logue with Nature, Bantam Books, New York, 198.
+[16] Kiczales, G., Lamping, J., Mendhekar, A., Maeda, C., Lopes,
+                                                                          [30] Randell, D., “Facing Up to Faults,” Department of Comput-
+     C.thLoingtier, J., Irwin, J., “Aspect-Oriented Programming,”              ing Science, University of Newcastle upon Tyne, January
+     11 European Conference on Object-Oriented Program-                        2000.
+     ming, LNCS 121, pp. 220–22, 1997.
+                                                                          [31] Rinard, M., “Automatic Detection and Repair of Errors
+[17] Knight, J., Leveson, N., “An Experimental Evaluation of                                                               th
+     the Assumption of Independence in Multi-Version Pro-                      in Data Structures,” Companion to the 18 Annual ACM
+     gramming,” IEEE Transactions on Software Engineering,                     SIGPLAN Conference on Object-Oriented Programming
+                                                                               Systems, Languages and Applications, Anaheim, CA, pp.
+     Vol. SE-12, No. 1, pp. 96–109, January 1986.                              221–239, 2003.
+[18] Knight, T., Sussman, G., “Cellular Gate Technology,” Pro-
+                                                                          [32] Rinard, M., Cadar, C., Nguyen, H., “Exploring the Accept-
+     ceedings of UMC98, First International Conference on                      ability Envelope,” Companion to the 20 Annual ACM
+     Unconventional Models of Computation, Auckland, NZ,                       SIGPLAN Conference on Object-Oriented Programming,
+     January 1998.
+                                                                               Systems, Languages, and Applications, San Diego, Califor-
+[19] Krakauer, D., “Robustness in Biological Systems: A Provi-                 nia, 2005.
+     sional Taxonomy,” Santa Fe Institute Working Paper #03-
+     02-008, 2003.                                                        [33] des Rivières J., Smith, B., “The Implementation of Proce-
+                                                                               durally Reflective Languages,” Proceedings of the ACM
+[20] Lanier, J., “Why Gordian Software has Convinced Me to                     Symposium on LISP and Functional Programming, 198.
+     Believe in the Reality of Cats and Apples,” in Edge 128,
+                                                                          [3] Smith, B., On the Origin of Objects, A Bradford Book, The
+     November 20, 2003,   http://www.edge.org/documents/archive/               MIT Press, Cambridge, 1996.
+     edge128.html.
+                                                                          [35] The Software Engineering Institute (SEI), “The Software
+[21] Maturana, H., “Autopoiesis,” in Autopoiesis: A Theory of                  Challenge of the Future: Ultra-Large-Scale Systems,” June
+     Living Organization, Milan Zeleny (ed.), pp. 21–30, New                   2006, http://www.sei.cmu.edu/ul./
+     York, North Holland, 1981.
+                                                                          [36] Steele Jr, G., Gabriel, R., “The Evolution of Lisp,” ACM
+[22] Maturana, H., Varela, F., “Autopoiesis: The Organization                  Conference on the History of Programming Languages, II,
+    published in ACM SIGPLAN Notices, Vol. 28, No. 3, March     [39] Weiss, R., Knight, T., Sussman, G., “Cellular Computation
+    1993,http://dreamsongs.com/NewFiles/HOPL2-U.cut.pdf             and Communication Using Engineered Genetic Regulato-
+[37] Ungar, D., Smith, R., “Self: The Power of Simplicity,” Pro-    ry Networks,” in Cellular Computing, Martyn Amos (Ed.),
+    ceedings of the ACM Conference on Object-Oriented               pp. 120–17, Oxford University Press, 200.
+    Programming, Systems, Languages and Applications, Or-       [0] Weizenbaum, J.Computer Power and Human Reason:
+    lando, Florida, 1987.                                           From Judgement to Calculation, W.H. Freeman & Compa-
+                                                                    ny, 1976.
+[38] Weiss, R., Knight, T., Sussman, G., “Genetic Process Engi-
+    neering,” in Cellular Computing, Martyn Amos (Ed.), pp.
+    3–73, Oxford University Press, 200.
+
+
+
+
+
+
+
+                                 Principles for Conscientious Software
+
+                             •   Continuous (re)design happens over the full lifecycle of
+
+                                 a piece of software.
+                             •   Soft / dynamic architectures are needed to allow
+                                 adding / changing code at runtime.
+
+                             •   Software is in(ter)dependent: It must maintain its own
+                                 integrity while it depends on services provided by other
+                                 software.
+                             •   Continual customization and adaptation is required
+
+                                 if software is to meet the user’s needs in the local
+                                 computing environment.
+                             •   Make software self-contained: Everything necessary
+                                 to build the software should be packaged with it, e.g.
+
+                                 source code, tests, etc.
+                             •   Software should actively participate in its own
+                                 development, customization, and operation.
+                             •   Failure is common.
+
+                             •   Seek out and repair errors, or tolerate them gracefully.
+                            •    Write tests and continually run them.
+                             •   Use feedback.
+
+                             •   Make things visible.
+                             •   Software needs to be aware of itself and of other
+                                 software it connects with.
+                             •   Software consists of an allopoietic part and an
+
+                                 autopoietic part.
+                            •    Autopoiesis involves flow, gradients and layers.
+                             •   Software needs to support diversity and redundancy.
